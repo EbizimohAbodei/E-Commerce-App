@@ -1,6 +1,7 @@
-import axios from "axios";
 import { useState, ChangeEvent, FormEvent, useRef, LegacyRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { createUser } from "../redux/reducers/userReducer";

@@ -1,5 +1,5 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Siderbar = () => {
   return (
@@ -10,13 +10,13 @@ const Siderbar = () => {
         </li>
         <li>
           <NavLink to="/admin/create-product">Create Products</NavLink>
-        </li> 
+        </li>
         <li>
           <NavLink to="/admin/manage-products">Manage Products</NavLink>
         </li>
       </ul>
     </div>
   );
-}
+};
 
-export default Siderbar
+export default Siderbar;

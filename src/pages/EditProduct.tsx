@@ -1,61 +1,55 @@
-import {useState, ChangeEvent, FormEvent, useEffect} from 'react'
-import useAppSelector from '../hooks/useAppSelector';
-import { useParams } from 'react-router-dom';
-import useAppDispatch from '../hooks/useAppDispatch';
-import { updateProduct } from '../redux/reducers/productReducers';
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+
+import useAppSelector from "../hooks/useAppSelector";
+import { useParams } from "react-router-dom";
+import useAppDispatch from "../hooks/useAppDispatch";
+import { updateProduct } from "../redux/reducers/productReducers";
+
 const EditProduct = () => {
+  const { categories, products } = useAppSelector(
+    (state) => state.productsReducer
+  );
+  const [data, setData] = useState({
+    title: "",
+    price: "",
+    description: "",
+    categoryId: "",
+  });
+  const handleChange = (
+    event: ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
 
-    const { categories,  products } = useAppSelector((state) => state.productsReducer);
-      const [data, setData] = useState({
-        title: "",
-        price: "",
-        description: "",
-        categoryId: "",
+  const { id } = useParams();
+
+  const dispatch = useAppDispatch();
+
+  const product = products.find((p) => p.id === Number(id));
+  useEffect(() => {
+    if (product) {
+      setData({
+        ...data,
+        title: product?.title as string,
+        price: product?.price.toString() as string,
+        description: product?.description as string,
+        categoryId: product?.category.id.toString() as string,
       });
-      const handleChange = (
-        event: ChangeEvent<
-          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-      ) => {
-        setData({
-          ...data,
-          [event.target.name]: event.target.value,
-        });
-    };
-    
-    const { id } = useParams()
-    
-      const dispatch = useAppDispatch();
-
-    const product = products.find(p => p.id === Number(id));
-      useEffect(() => {
-  
-
-                if (product) {
-                  setData({
-                    ...data,
-                    title: product?.title as string,
-                    price: product?.price.toString() as string,
-                    description: product?.description as string,
-                    categoryId: product?.category.id.toString() as string,
-                  });
-                }
-   
-          
-      }, []);
-    
-
-    
-    
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-        const updateData = {...data, id}
-        dispatch(updateProduct(updateData))
     }
+  }, [data, product]);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const updateData = { ...data, id };
+    dispatch(updateProduct(updateData));
+  };
   return (
-      <div>
-          
-        
+    <div>
       <form action="" onSubmit={handleSubmit}>
         <h1>Edit Product</h1>
         <input
@@ -97,6 +91,6 @@ const EditProduct = () => {
       </form>
     </div>
   );
-}
+};
 
-export default EditProduct
+export default EditProduct;

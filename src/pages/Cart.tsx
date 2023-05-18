@@ -2,27 +2,25 @@ import React from "react";
 import useAppSelector from "../hooks/useAppSelector";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { incrementQuantity, decrementQuantity, removeFromCart } from "../redux/reducers/cartReducers";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+} from "../redux/reducers/cartReducers";
 const Cart = () => {
-const cart =  useAppSelector((state)=>state.cartReducers)
-  const dispatch = useAppDispatch()
-  
-    const getTotalPrice = () => {
-      return cart.reduce(
-        (accumulator, item) =>
-          accumulator +
-          item.quantity *
-             item.price,
-        0
-      );
-    };
+  const cart = useAppSelector((state) => state.cartReducers);
+  const dispatch = useAppDispatch();
 
-    const getTotalAmount = () => {
-      return cart.reduce(
-        (accumulator, item) => accumulator + item.quantity,
-        0
-      );
-    };
+  const getTotalPrice = () => {
+    return cart.reduce(
+      (accumulator, item) => accumulator + item.quantity * item.price,
+      0
+    );
+  };
+
+  const getTotalAmount = () => {
+    return cart.reduce((accumulator, item) => accumulator + item.quantity, 0);
+  };
   return (
     <div>
       <table border={1}>
@@ -84,9 +82,8 @@ const cart =  useAppSelector((state)=>state.cartReducers)
           <h3>Total: ${new Intl.NumberFormat().format(getTotalPrice())} </h3>
         </div>
         <div>
-          
-        <button>Proceed to checkout</button>
-</div>
+          <button>Proceed to checkout</button>
+        </div>
       </section>
     </div>
   );

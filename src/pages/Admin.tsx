@@ -1,5 +1,5 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Admin = () => {
   return (
@@ -8,6 +8,6 @@ const Admin = () => {
       <p>This is the main content area of the dashboard.</p>
     </div>
   );
-}
+};
 
-export default Admin
+export default Admin;

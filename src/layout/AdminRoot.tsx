@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Siderbar from "../components/Siderbar";
@@ -10,8 +11,7 @@ const AdminRoot = () => {
       <div className="container">
         <Siderbar />
         <div className="dashboard">
-     
-        <Outlet />
+          <Outlet />
         </div>
       </div>
     </>

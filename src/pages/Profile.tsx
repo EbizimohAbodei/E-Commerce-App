@@ -1,33 +1,25 @@
-import {useRef, FormEvent, useEffect} from 'react'
-import useAppSelector from '../hooks/useAppSelector';
+import { useRef, FormEvent, useEffect } from "react";
+
+import useAppSelector from "../hooks/useAppSelector";
 
 const Profile = () => {
-const user =  useAppSelector((state)=>state.userReducers)
+  const user = useAppSelector((state) => state.userReducers);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const roleRef = useRef<HTMLSelectElement | null>(null); 
+  const roleRef = useRef<HTMLSelectElement | null>(null);
 
-  const handleSubmit = (event:FormEvent) => {
-    
-  }
+  const handleSubmit = (event: FormEvent) => {};
 
-  console.log(user );
-  
+  console.log(user);
 
   useEffect(() => {
-    
-   
-       
-      nameRef.current!.value =user.user.name as string
-      emailRef.current!.value =user.user.email as string
-      roleRef.current!.value =user.user.role as string
-      nameRef.current!.value =user.user.name as string
-      
-  
-    
-},[])
+    nameRef.current!.value = user.user.name as string;
+    emailRef.current!.value = user.user.email as string;
+    roleRef.current!.value = user.user.role as string;
+    nameRef.current!.value = user.user.name as string;
+  }, []);
   return (
     <div className="account">
       <form action="" onSubmit={handleSubmit}>
@@ -58,10 +50,9 @@ const user =  useAppSelector((state)=>state.userReducers)
           <input type="file" ref={fileRef} />
         </div>
         <button>Update</button>
-     
       </form>
     </div>
   );
-}
+};
 
-export default Profile
+export default Profile;

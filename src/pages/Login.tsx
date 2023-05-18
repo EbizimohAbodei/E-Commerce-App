@@ -1,39 +1,37 @@
-import {useState, ChangeEvent, FormEvent, useEffect} from 'react'
-import { Link, useNavigate} from 'react-router-dom';
-import useAppDispatch from '../hooks/useAppDispatch';
-import { userAuth } from '../redux/reducers/userReducer';
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import useAppSelector from '../hooks/useAppSelector';
+import useAppDispatch from "../hooks/useAppDispatch";
+import { userAuth } from "../redux/reducers/userReducer";
+import useAppSelector from "../hooks/useAppSelector";
+
 const Login = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  
-  const user =  useAppSelector((state)=> state.userReducers)
-  const [data, setData] = useState({ email: "", password: "" })
-  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const user = useAppSelector((state) => state.userReducers);
+  const [data, setData] = useState({ email: "", password: "" });
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setData({
       ...data,
-      [event?.target.name]:event?.target.value
-    })
-  }
+      [event?.target.name]: event?.target.value,
+    });
+  };
+
   const handleSubmit = (event: FormEvent) => {
     try {
-      event.preventDefault()
-      dispatch(userAuth(data))
+      event.preventDefault();
+      dispatch(userAuth(data));
       console.log(user.isLoggedin);
-      
-    
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
     if (user.isLoggedin) {
       navigate("/products");
     }
-}, [user.isLoggedin])
-  
+  }, [navigate, user.isLoggedin]);
+
   return (
     <div className="account">
       <form action="" onSubmit={handleSubmit}>
@@ -63,6 +61,6 @@ const Login = () => {
       </form>
     </div>
   );
-}
+};
 
-export default Login
+export default Login;
