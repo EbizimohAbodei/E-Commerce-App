@@ -1,15 +1,18 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { Category, Product } from "../../types/Products";
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 import { toast } from "react-toastify";
+
+
+
 
 export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
   try {
     const result = await axios.get<Product[]>(
       "https://api.escuelajs.co/api/v1/products"
     );
-
+    
     return result.data; // returned result would be inside action.payload
   } catch (e) {
     const error = e as AxiosError;
@@ -21,70 +24,64 @@ export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
   }
 });
 
-export const fetchSingleProduct = createAsyncThunk(
-  "getSingleProduct",
-  async (id: string) => {
-    try {
-      const result = await axios.get<Product>(
-        "https://api.escuelajs.co/api/v1/products/" + id
-      );
 
-      return result.data;
-    } catch (e) {
-      const error = e as AxiosError;
-      if (error.request) {
-        console.log("error in request: ", error.request);
-      } else {
-        console.log(error.response?.data);
-      }
+export const fetchSingleProduct = createAsyncThunk('getSingleProduct', async (id:string) => {
+  try {
+     const result = await axios.get<Product>(
+       "https://api.escuelajs.co/api/v1/products/"+id
+     );
+
+     return result.data;
+  } catch (e) {
+    const error = e as AxiosError;
+    if (error.request) {
+      console.log("error in request: ", error.request);
+    } else {
+      console.log(error.response?.data);
     }
   }
-);
+})
 
-export const fetchAllCategories = createAsyncThunk(
-  "getAllCategories",
-  async () => {
-    try {
-      const result = await axios.get<Category[]>(
-        "https://api.escuelajs.co/api/v1/categories"
-      );
 
-      return result.data; // returned result would be inside action.payload
-    } catch (e) {
-      const error = e as AxiosError;
-      if (error.request) {
-        console.log("error in request: ", error.request);
-      } else {
-        console.log(error.response?.data);
-      }
-    }
-  }
-);
+export const fetchAllCategories = createAsyncThunk("getAllCategories", async () => {
+   try {
+     const result = await axios.get<Category[]>(
+       "https://api.escuelajs.co/api/v1/categories"
+     );
 
-export const createNewProduct = createAsyncThunk(
-  "createNewProduct",
-  async (data: Product) => {
-    try {
-      const result = await axios.post<Product>(
-        "https://api.escuelajs.co/api/v1/products",
-        data
-      );
+     return result.data; // returned result would be inside action.payload
+   } catch (e) {
+     const error = e as AxiosError;
+     if (error.request) {
+       console.log("error in request: ", error.request);
+     } else {
+       console.log(error.response?.data);
+     }
+   }
+})
 
-      return result.data; // returned result would be inside action.payload
-    } catch (e) {
-      const error = e as AxiosError;
-      if (error.request) {
-        console.log("error in request: ", error.request);
-      } else {
-        console.log(error.response?.data);
-      }
-    }
-  }
-);
+
+export const createNewProduct = createAsyncThunk('createNewProduct', async (data:Product) => {
+     try {
+       const result = await axios.post<Product>(
+         "https://api.escuelajs.co/api/v1/products", data
+       );
+
+       return result.data; // returned result would be inside action.payload
+     } catch (e) {
+       const error = e as AxiosError;
+       if (error.request) {
+         console.log("error in request: ", error.request);
+       } else {
+         console.log(error.response?.data);
+       }
+     }
+})
+
 
 export const updateProduct = createAsyncThunk(
   "updateProduct",
-  async (data: any) => {
+  async (data:any) => {
     try {
       const result = await axios.put(
         `https://api.escuelajs.co/api/v1/products/${data.id}`,
@@ -102,12 +99,14 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+
 export const deleteProduct = createAsyncThunk(
   "deleteProduct",
-  async (id: string) => {
+  async (id:string) => {
     try {
       const result = await axios.delete(
-        `https://api.escuelajs.co/api/v1/products/${id}`
+        `https://api.escuelajs.co/api/v1/products/${id}`,
+        
       );
 
       return result.data; // returned result would be inside action.payload
@@ -122,25 +121,16 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
-interface Products {
-  products: Product[];
-  product: Product | null;
-  categories: Category[];
+interface Products{
+  products: Product[]
+  product: Product| null
+  categories: Category[]
 }
 
 const initialState: Products = {
-  product: {
-    id: 0,
-    category: { id: 0, name: "", creationAt: "", image: "", updatedAt: "" },
-    creationAt: "",
-    description: "",
-    images: [],
-    price: 0,
-    title: "",
-    updatedAt: "",
-  },
+  product: { id: 0, category: { id: 0, name: "", creationAt: "", image: "", updatedAt: "" }, creationAt: "", description: "", images: [], price: 0, title: "", updatedAt: "" },
   categories: [],
-  products: [],
+  products:[]
 };
 
 /* createSlice() returns 1 object {
@@ -149,40 +139,39 @@ const initialState: Products = {
 export const productsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {}, // list of methods to modify the state
-  extraReducers: (build) => {
-    build
-      .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.products = action.payload;
-        }
-      })
-      .addCase(fetchSingleProduct.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.product = action.payload;
-        }
-      })
-      .addCase(fetchAllCategories.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.categories = action.payload;
-        }
-      })
-      .addCase(createNewProduct.fulfilled, (state, action) => {
-        if (action.payload) {
-          toast.success("product created successfully");
-        }
-      })
-      .addCase(updateProduct.fulfilled, (state, action) => {
-        if (action.payload) {
-          toast.success("product updated");
-        }
-      })
-      .addCase(deleteProduct.fulfilled, (state, action) => {
-        if (action.payload) {
-          toast.success("product deleted");
-        }
-      });
-  },
+  reducers: {
+
+
+    }, // list of methods to modify the state
+    extraReducers: (build) => {
+        build.addCase(fetchAllProducts.fulfilled, (state, action) => {
+          if (action.payload) {      
+             state.products =action.payload
+         }
+        }).addCase(fetchSingleProduct.fulfilled, (state, action) => {
+          if (action.payload) {
+         state.product = action.payload 
+       }
+        }).addCase(fetchAllCategories.fulfilled, (state, action) => {
+          if (action.payload) {
+            state.categories =  action.payload
+          }
+        }).addCase(createNewProduct.fulfilled, (state, action) => { 
+          if (action.payload) {
+            toast.success('product created successfully')
+          }
+        }).addCase(updateProduct.fulfilled, (state, action) => { 
+            if (action.payload) {
+              toast.success("product updated");
+            }
+        }).addCase(deleteProduct.fulfilled, (state, action) => { 
+              if (action.payload) {
+                toast.success("product deleted");
+              }
+        })
+      
+      
+  }
 });
 
 //productReducer: current state

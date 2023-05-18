@@ -99,7 +99,7 @@ const App = () => {
     if (user.isLoggedin) {
       dispatch(getUser());
     }
-  }, [user.isLoggedin, dispatch]);
+  }, [dispatch, user.isLoggedin]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());

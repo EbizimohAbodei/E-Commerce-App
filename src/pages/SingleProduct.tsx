@@ -14,7 +14,7 @@ import Slider from "../components/Slider";
 import { Product } from "../types/Products";
 import { fetchSingleProduct } from "../redux/reducers/productReducers";
 const SingleProduct = () => {
-  const[ product]: Product[] = useAppSelector((state) => state.productsReducer);
+  const {product} = useAppSelector((state) => state.productsReducer);
   const { id } = useParams();
 
   const dispatch = useAppDispatch();

@@ -1,67 +1,94 @@
-import axios from 'axios';
-import {useState, ChangeEvent, FormEvent} from 'react'
-import { Link } from 'react-router-dom';
-import useAppDispatch from '../hooks/useAppDispatch';
-import useAppSelector from '../hooks/useAppSelector';
-import { createUser } from '../redux/reducers/userReducer';
-import { User } from '../types/User';
+import axios from "axios";
+import { useState, ChangeEvent, FormEvent, useRef, LegacyRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useAppDispatch from "../hooks/useAppDispatch";
+import useAppSelector from "../hooks/useAppSelector";
+import { createUser } from "../redux/reducers/userReducer";
+import { User } from "../types/User";
 
 const Signup = () => {
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const roleRef = useRef<HTMLSelectElement | null>(null);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.userReducers);
+  const navigate = useNavigate();
 
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    password:""
-  })
-  const dispatch = useAppDispatch()
-  const user = useAppSelector((state) => state.userReducers)
-  
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      const file = fileRef.current?.files;
 
-  dispatch(createUser(data as any))
-  
-  }
+      if (file) {
+        const formdata = new FormData();
+        formdata.append("file", file[0]);
+        const resp = await axios.post(
+          "https://api.escuelajs.co/api/v1/files/upload",
+          formdata
+        );
+        console.log(resp.data.location);
+        if (resp.status === 201) {
+          const data: User = {
+            avatar: resp.data.location,
+            name: nameRef.current?.value as string,
+            email: emailRef.current?.value as string,
+            password: passwordRef.current?.value as string,
+            role: roleRef.current?.value as string,
+          };
 
+          dispatch(createUser(data));
 
-  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
-    
-    setData({
-      ...data,
-      [event.target.name]:event.target.value
-    })
-  }
+          nameRef.current!.value = "";
+          emailRef.current!.value = "";
+          passwordRef.current!.value = "";
+          fileRef.current!.files = null;
+
+          setTimeout(() => navigate("/signup"), 4000);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="account">
       <form action="" onSubmit={handleSubmit}>
         <h1>Create Account</h1>
-        <input type="text" name="name" placeholder="name" value={data.name} onChange={handleChange} />
-        <input type="text" name="email" placeholder="Email Address" value={data.email} onChange={handleChange} />  
-      
-        <input type="password" name="password" id="" placeholder="Password" value={data.password} onChange={handleChange} />
-
-        <div className='form-control'>
+        <input type="text" name="name" placeholder="name" ref={nameRef} />
+        <input
+          type="text"
+          name="email"
+          placeholder="Email Address"
+          ref={emailRef}
+        />
+        <input
+          type="password"
+          name="password"
+          id=""
+          placeholder="Password"
+          ref={passwordRef}
+        />
+        <div className="form-control">
           <span>Role: </span>
-          <select name="" id="">
-            <option value="user">user</option>
+          <select name="" id="" ref={roleRef}>
+            <option value="customer">customer</option>
             <option value="admin">admin</option>
           </select>
         </div>
-
-        <div className='form-group'>
+        <div className="form-group">
           <span>Image: </span>
-        <input type="file" />
+          <input type="file" ref={fileRef} />
         </div>
-
         <button>Create Account</button>
-
         <p>
-          already have an account?{" "}
-          <Link to="/signin">Signin here</Link>{" "}
+          already have an account? <Link to="/signin">Signin here</Link>{" "}
         </p>
       </form>
     </div>
   );
-}
+};
 
-export default Signup
+export default Signup;

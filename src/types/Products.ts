@@ -5,6 +5,7 @@ export interface Category {
   creationAt: string;
   updatedAt: string;
 }
+
 export interface Product {
   id: number;
   title: string;
@@ -13,17 +14,13 @@ export interface Product {
   images: Array<string>;
   creationAt: string;
   updatedAt: string;
-  category: {
-    id: number;
-    name: string;
-    image: string;
-    creationAt: string;
-    updatedAt: string;
-  };
+  category:Category
 }
+
 
 export interface Cart extends Product {
-  quantity: number;
+    quantity: number;
 }
 
-const x: Cart[] = [];
+const x: Cart[] = []
+

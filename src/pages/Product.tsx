@@ -1,20 +1,18 @@
 import React, { useEffect } from "react";
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { fetchAllProducts } from "../redux/reducers/productReducers";
+
 import { FaHeart } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { addToCart } from "../redux/reducers/cartReducers";
 const Product = () => {
-  const products = useAppSelector((state) => state.productsReducer);
+  const {products} = useAppSelector((state) => state.productsReducer);
   
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, []);
+
 
   return (
     <div className="product-container">
