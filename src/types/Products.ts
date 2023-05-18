@@ -1,3 +1,10 @@
+export interface Category {
+  id: number;
+  name: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+}
 export interface Product {
   id: number;
   title: string;
@@ -15,10 +22,8 @@ export interface Product {
   };
 }
 
-
 export interface Cart extends Product {
-    quantity: number;
+  quantity: number;
 }
 
-const x: Cart[] = []
-
+const x: Cart[] = [];

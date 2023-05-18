@@ -1,6 +1,4 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import Root from "./layout/Root";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
@@ -10,7 +8,21 @@ import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import useAppSelector from "./hooks/useAppSelector";
+import useAppDispatch from "./hooks/useAppDispatch";
+import { getUser } from "./redux/reducers/userReducer";
+import Admin from "./pages/Admin";
+import AdminRoot from "./layout/AdminRoot";
+import CreateProduct from "./pages/CreateProduct";
+import {
+  fetchAllCategories,
+  fetchAllProducts,
+} from "./redux/reducers/productReducers";
+import ManageProducts from "./pages/ManageProducts";
+import EditProduct from "./pages/EditProduct";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,14 +57,58 @@ const router = createBrowserRouter([
         path: "/create-account",
         element: <Signup />,
       },
+
+      {
+        path: "/admin",
+        element: <Admin />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminRoot />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "",
+        element: <Admin />,
+      },
+
+      {
+        path: "create-product",
+        element: <CreateProduct />,
+      },
+      {
+        path: "manage-products",
+        element: <ManageProducts />,
+      },
+
+      {
+        path: "product/:id",
+        element: <EditProduct />,
+      },
     ],
   },
 ]);
 
 const App = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.userReducers);
+
+  useEffect(() => {
+    if (user.isLoggedin) {
+      dispatch(getUser());
+    }
+  }, [user.isLoggedin, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
   return (
     <div>
       <RouterProvider router={router} />
+      <ToastContainer />
     </div>
   );
 };
