@@ -1,15 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+
 import useAppSelector from "../hooks/useAppSelector";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { createNewProduct } from "../redux/reducers/productReducers";
-import { Product } from "../types/Products";
+import {
+  createNewProduct,
+  fetchAllProducts,
+} from "../redux/reducers/productReducers";
 
 const CreateProduct = () => {
   const [files, setFiles] = useState<string[]>([]);
   const { categories } = useAppSelector((state) => state.productsReducer);
-
   const [data, setData] = useState({
     title: "",
     price: "",
@@ -48,16 +50,21 @@ const CreateProduct = () => {
       console.log(error);
     }
   };
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (!data.categoryId || !data.description || !data.price || !data.title) {
+      toast.error("missing fields");
+      return;
+    }
     try {
       const sentData: any = { ...data, images: files };
       dispatch(createNewProduct(sentData));
+      dispatch(fetchAllProducts());
     } catch (error) {}
   };
+
   return (
-    <div>
+    <div className="">
       <form action="" onSubmit={handleSubmit}>
         <h1>Create Product</h1>
         <input
@@ -89,6 +96,7 @@ const CreateProduct = () => {
           value={data.categoryId}
           onChange={handleChange}
         >
+          <option value="">choose category</option>
           {categories.map((category) => (
             <option value={category.id}>{category.name}</option>
           ))}

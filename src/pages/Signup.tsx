@@ -1,6 +1,6 @@
-import { useState, ChangeEvent, FormEvent, useRef, LegacyRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FormEvent, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -46,7 +46,7 @@ const Signup = () => {
           passwordRef.current!.value = "";
           fileRef.current!.files = null;
 
-          setTimeout(() => navigate("/signup"), 4000);
+          setTimeout(() => navigate("/signin"), 4000);
         }
       }
     } catch (error) {
@@ -55,7 +55,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="account">
+    <div className="account page">
       <form action="" onSubmit={handleSubmit}>
         <h1>Create Account</h1>
         <input type="text" name="name" placeholder="name" ref={nameRef} />

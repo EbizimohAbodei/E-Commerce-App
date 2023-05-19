@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import useAppSelector from "../hooks/useAppSelector";
 import {
   Paper,
   TableContainer,
@@ -12,7 +13,6 @@ import {
   TablePagination,
   Button,
 } from "@mui/material";
-import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { deleteProduct } from "../redux/reducers/productReducers";
 

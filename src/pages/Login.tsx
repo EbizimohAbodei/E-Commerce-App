@@ -17,7 +17,6 @@ const Login = () => {
       [event?.target.name]: event?.target.value,
     });
   };
-
   const handleSubmit = (event: FormEvent) => {
     try {
       event.preventDefault();
@@ -33,7 +32,7 @@ const Login = () => {
   }, [navigate, user.isLoggedin]);
 
   return (
-    <div className="account">
+    <div className="account page">
       <form action="" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <input
@@ -51,9 +50,7 @@ const Login = () => {
           onChange={handleChange}
           value={data.password}
         />
-
         <button>Login</button>
-
         <p>
           Don't have an account?{" "}
           <Link to="/create-account">create account</Link>{" "}

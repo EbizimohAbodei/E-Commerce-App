@@ -14,7 +14,7 @@ const Benefits = () => {
       <article>
         <div>
           <section>
-            <img src="/svgs/quality.svg" />
+            <img src="/svgs/quality.svg" alt="quality assurance" />
           </section>
           <section>
             <h3>Best Quality</h3>

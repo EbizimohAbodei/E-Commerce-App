@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { Category, Product } from "../../types/Products";
 import axios, { AxiosError } from "axios";
@@ -12,8 +12,9 @@ export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
 
     return result.data; // returned result would be inside action.payload
   } catch (e) {
-    const error = e as AxiosError;
+    const error = e as AxiosError | any;
     if (error.request) {
+      toast.error(error.response?.data?.message);
       console.log("error in request: ", error.request);
     } else {
       console.log(error.response?.data);
@@ -31,8 +32,11 @@ export const fetchSingleProduct = createAsyncThunk(
 
       return result.data;
     } catch (e) {
-      const error = e as AxiosError;
+      console.log(e);
+
+      const error = e as AxiosError | any;
       if (error.request) {
+        toast.error(error.response?.data?.message);
         console.log("error in request: ", error.request);
       } else {
         console.log(error.response?.data);
@@ -72,8 +76,9 @@ export const createNewProduct = createAsyncThunk(
 
       return result.data; // returned result would be inside action.payload
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as AxiosError | any;
       if (error.request) {
+        toast.error(error.response?.data?.message);
         console.log("error in request: ", error.request);
       } else {
         console.log(error.response?.data);
@@ -92,8 +97,9 @@ export const updateProduct = createAsyncThunk(
       );
       return result.data; // returned result would be inside action.payload
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as AxiosError | any;
       if (error.request) {
+        toast.error(error.response?.data?.message);
         console.log("error in request: ", error.request);
       } else {
         console.log(error.response?.data);
@@ -109,11 +115,11 @@ export const deleteProduct = createAsyncThunk(
       const result = await axios.delete(
         `https://api.escuelajs.co/api/v1/products/${id}`
       );
-
       return result.data; // returned result would be inside action.payload
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as AxiosError | any;
       if (error.request) {
+        toast.error(error.response?.data?.message);
         console.log("error in request: ", error.request);
       } else {
         console.log(error.response?.data);
@@ -149,7 +155,27 @@ const initialState: Products = {
 export const productsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {}, // list of methods to modify the state
+  reducers: {
+    sortProductsByCategory: (state) => {
+      const sorted = [...state.products].sort((a, b) => {
+        if (a.category.id < b.category.id) return -1;
+        if (a.category.id > b.category.id) return 1;
+        return 0;
+      });
+
+      state.products = sorted;
+    },
+
+    sortProductsByPrice: (state) => {
+      const sorted = [...state.products].sort((a, b) => {
+        if (a.price < b.price) return -1;
+        if (a.price > b.price) return 1;
+        return 0;
+      });
+
+      state.products = sorted;
+    },
+  }, // list of methods to modify the state
   extraReducers: (build) => {
     build
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
@@ -187,5 +213,6 @@ export const productsSlice = createSlice({
 
 //productReducer: current state
 const productsReducer = productsSlice.reducer;
-// export const {clearProductField} =  productsSlice.actions
+export const { sortProductsByCategory, sortProductsByPrice } =
+  productsSlice.actions;
 export default productsReducer;

@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaBars } from "react-icons/fa";
 import useAppSelector from "../hooks/useAppSelector";
+
 const Navbar = () => {
+  const [collapse, setCollapse] = useState(true);
   const [total, setTotal] = useState(0);
   const cart = useAppSelector((state) => state.cartReducers);
+  const user = useAppSelector((state) => state.userReducers);
   useEffect(() => {
     setTotal(
       cart.reduce((accumulator, item) => accumulator + item.quantity, 0)
     );
   }, [cart]);
+
   const navlinks = [
     { link: "/", text: "Home" },
     { link: "/products", text: "Product" },
-    { link: "/profile", text: "Account" },
-    { link: "/signin", text: "Login" },
   ];
   return (
     <nav>
       <Link to="/">
         <img src="/logo192.png" alt="" className="logo" />
       </Link>
-      <ul>
+      <ul className={`${collapse && "collapse"}`}>
         {navlinks.map((item) => (
           <li key={item.link}>
             <NavLink
@@ -36,13 +38,63 @@ const Navbar = () => {
           </li>
         ))}
 
-        <li>
-          <Link to="/cart">
-            <FaShoppingCart />
-            <span>{total}</span>
-          </Link>
-        </li>
+        {user.isLoggedin ? (
+          <>
+            <li>
+              <NavLink
+                to="/profile"
+                className={(link) => {
+                  return link.isActive ? "active" : "";
+                }}
+              >
+                Profile
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/admin"
+                className={(link) => {
+                  return link.isActive ? "active" : "";
+                }}
+              >
+                Admin
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/profile"
+                className={(link) => {
+                  return link.isActive ? "active" : "";
+                }}
+              >
+                Logout
+              </NavLink>
+            </li>
+          </>
+        ) : (
+          <li>
+            <NavLink
+              to="/signin"
+              className={(link) => {
+                return link.isActive ? "active" : "";
+              }}
+            >
+              Login
+            </NavLink>
+          </li>
+        )}
       </ul>
+      <div>
+        <Link to="/cart" className="cart">
+          <FaShoppingCart />
+          <span>{total}</span>
+        </Link>
+
+        <button className="menu" onClick={() => setCollapse((prev) => !prev)}>
+          <FaBars />
+        </button>
+      </div>
     </nav>
   );
 };

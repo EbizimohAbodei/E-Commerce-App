@@ -1,9 +1,16 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
+import useAppSelector from "../hooks/useAppSelector";
 
 const Siderbar = () => {
   return (
     <div className="sidebar">
+      <div>
+        <Link to="/" className="logo">
+          <img src="/logo192.png" alt="" className="logo" />
+        </Link>
+      </div>
       <ul>
         <li>
           <NavLink to="/Admin">Dashboard</NavLink>

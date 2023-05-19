@@ -20,5 +20,3 @@ export interface Product {
 export interface Cart extends Product {
   quantity: number;
 }
-
-const x: Cart[] = [];

@@ -26,6 +26,7 @@
 
 .product-details {
   padding: 30px;
+  height: 10rem;
 
   h4 a {
     font-weight: 500;
@@ -93,7 +94,8 @@ button {
     margin-left: 5px;
     color: #e1e1e1;
     border: none;
-    background: none;
+    // background: none;
+    background: inherit;
     
     transition: 0.3s;
     font-size: 2rem;
@@ -102,6 +104,14 @@ button {
     width: 13rem; 
     padding: .3rem 0;
     color: white;
+     transition: 0.2s all;
+        box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+ &:active {
+            transform: scale(0.98);
+       
+            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+        
+        }
     border-radius: 5px;
 }
     &:last-child:hover {

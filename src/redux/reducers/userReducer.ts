@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Cart } from "../../types/Products";
 import axios, { AxiosError } from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import { User } from "../../types/User";
 import { toast } from "react-toastify";
 
@@ -32,8 +32,9 @@ export const createUser = createAsyncThunk("createUser", async (data: User) => {
 
     return result.data; // returned result would be inside action.payload
   } catch (e) {
-    const error = e as AxiosError;
+    const error = e as AxiosError | any;
     if (error.request) {
+      toast.error(error.response?.data?.message);
       console.log("error in request: ", error.request);
     } else {
       console.log(error.response?.data);
@@ -49,8 +50,11 @@ export const userAuth = createAsyncThunk("userAuth", async (data: any) => {
     );
     return result.data; // returned result would be inside action.payload
   } catch (e) {
-    const error = e as AxiosError;
+    const error = e as AxiosError | any;
+    console.log(e);
+
     if (error.request) {
+      toast.error(error.response?.data?.message);
       console.log("error in request: ", error.request);
     } else {
       console.log(error.response?.data);
@@ -75,8 +79,9 @@ export const getUser = createAsyncThunk("getUser", async () => {
 
     return result.data; // returned result would be inside action.payload
   } catch (e) {
-    const error = e as AxiosError;
+    const error = e as AxiosError | any;
     if (error.request) {
+      toast.error(error.response?.data?.message);
       console.log("error in request: ", error.request);
     } else {
       console.log(error.response?.data);
@@ -98,6 +103,7 @@ export const userSlice = createSlice({
         if (action.payload) {
           toast.success("login success");
           state.isLoggedin = true;
+
           localStorage.setItem("tokens", JSON.stringify(action.payload));
         }
       })

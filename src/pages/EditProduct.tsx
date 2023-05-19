@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import useAppSelector from "../hooks/useAppSelector";
-import { useParams } from "react-router-dom";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { updateProduct } from "../redux/reducers/productReducers";
 
@@ -49,7 +49,7 @@ const EditProduct = () => {
     dispatch(updateProduct(updateData));
   };
   return (
-    <div>
+    <div className="">
       <form action="" onSubmit={handleSubmit}>
         <h1>Edit Product</h1>
         <input

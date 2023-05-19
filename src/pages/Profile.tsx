@@ -11,17 +11,15 @@ const Profile = () => {
   const roleRef = useRef<HTMLSelectElement | null>(null);
 
   const handleSubmit = (event: FormEvent) => {};
-
-  console.log(user);
-
   useEffect(() => {
     nameRef.current!.value = user.user.name as string;
     emailRef.current!.value = user.user.email as string;
     roleRef.current!.value = user.user.role as string;
     nameRef.current!.value = user.user.name as string;
-  }, []);
+  }, [user.user.email, user.user.name, user.user.role]);
+
   return (
-    <div className="account">
+    <div className="account page">
       <form action="" onSubmit={handleSubmit}>
         <h1>Profile</h1>
         <input type="text" name="name" placeholder="name" ref={nameRef} />

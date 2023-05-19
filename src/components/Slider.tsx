@@ -5,6 +5,7 @@ import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/bundle";
+
 interface Props {
   images: Array<string>;
 }

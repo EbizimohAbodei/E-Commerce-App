@@ -1,11 +1,12 @@
 import React from "react";
+
 import Hero from "../components/Hero";
 import Trusted from "../components/Trusted";
 import Benefits from "../components/Benefits";
 
 const Home = () => {
   return (
-    <div>
+    <div className="page">
       <Hero />
       <Trusted />
       <Benefits />
