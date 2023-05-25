@@ -12,6 +12,7 @@ import {
 const CreateProduct = () => {
   const [files, setFiles] = useState<string[]>([]);
   const { categories } = useAppSelector((state) => state.productsReducer);
+
   const [data, setData] = useState({
     title: "",
     price: "",
@@ -50,6 +51,7 @@ const CreateProduct = () => {
       console.log(error);
     }
   };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (!data.categoryId || !data.description || !data.price || !data.title) {
@@ -62,7 +64,6 @@ const CreateProduct = () => {
       dispatch(fetchAllProducts());
     } catch (error) {}
   };
-
   return (
     <div className="">
       <form action="" onSubmit={handleSubmit}>

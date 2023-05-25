@@ -11,6 +11,7 @@ const Profile = () => {
   const roleRef = useRef<HTMLSelectElement | null>(null);
 
   const handleSubmit = (event: FormEvent) => {};
+
   useEffect(() => {
     nameRef.current!.value = user.user.name as string;
     emailRef.current!.value = user.user.email as string;

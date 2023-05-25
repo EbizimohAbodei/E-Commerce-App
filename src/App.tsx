@@ -1,7 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 import Root from "./layout/Root";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
@@ -11,6 +8,8 @@ import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import useAppSelector from "./hooks/useAppSelector";
 import useAppDispatch from "./hooks/useAppDispatch";
@@ -24,7 +23,6 @@ import {
 } from "./redux/reducers/productReducers";
 import ManageProducts from "./pages/ManageProducts";
 import EditProduct from "./pages/EditProduct";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -84,6 +82,7 @@ const router = createBrowserRouter([
         path: "manage-products",
         element: <ManageProducts />,
       },
+
       {
         path: "product/:id",
         element: <EditProduct />,
@@ -105,10 +104,21 @@ const App = () => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
   return (
-    <div>
+    <>
       <RouterProvider router={router} />
-      <ToastContainer />
-    </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
+    </>
   );
 };
 

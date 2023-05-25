@@ -10,10 +10,16 @@ const store = configureStore({
     productsReducer,
     cartReducers,
     userReducers,
-    saveReducers,
+   saveReducers
   },
 });
 
+// store.getState : return the whole global state value
+
+/* type GlobalState = {
+    productsReducer: Product[],
+    usersReducer: User[]
+} */
 export type GlobalState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch; //type of dispatch method from redux store
 export default store;

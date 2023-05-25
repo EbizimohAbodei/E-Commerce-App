@@ -1,13 +1,14 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
-
-import useAppSelector from "../hooks/useAppSelector";
+import React from 'react'
+import { Link, NavLink } from 'react-router-dom';
+import useAppSelector from '../hooks/useAppSelector';
 
 const Siderbar = () => {
+
+
   return (
     <div className="sidebar">
       <div>
-        <Link to="/" className="logo">
+        <Link to="/" className='logo'>
           <img src="/logo192.png" alt="" className="logo" />
         </Link>
       </div>
@@ -24,6 +25,6 @@ const Siderbar = () => {
       </ul>
     </div>
   );
-};
+}
 
-export default Siderbar;
+export default Siderbar

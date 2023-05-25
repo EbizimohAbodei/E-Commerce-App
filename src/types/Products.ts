@@ -14,9 +14,14 @@ export interface Product {
   images: Array<string>;
   creationAt: string;
   updatedAt: string;
-  category: Category;
+  category:Category
 }
 
+
+
 export interface Cart extends Product {
-  quantity: number;
+    quantity: number;
 }
+
+
+

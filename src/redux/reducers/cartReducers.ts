@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Cart } from "../../types/Products";
-
 const initialState: Cart[] = [];
 
 const cartSlice = createSlice({
@@ -15,10 +14,12 @@ const cartSlice = createSlice({
         state.push({ ...action.payload, quantity: 1 });
       }
     },
+
     incrementQuantity: (state, action) => {
       const item = state.find((item) => item.id === action.payload.id) as Cart;
       item.quantity++;
     },
+
     decrementQuantity: (state, action) => {
       const item = state.find((item) => item.id === action.payload.id) as Cart;
 
@@ -29,6 +30,7 @@ const cartSlice = createSlice({
         item.quantity--;
       }
     },
+
     removeFromCart: (state, action) => {
       const index = state.findIndex((item) => item.id === action.payload.id);
       state.splice(index, 1);

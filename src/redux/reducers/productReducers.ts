@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { Category, Product } from "../../types/Products";
 import axios, { AxiosError } from "axios";
@@ -115,6 +115,7 @@ export const deleteProduct = createAsyncThunk(
       const result = await axios.delete(
         `https://api.escuelajs.co/api/v1/products/${id}`
       );
+
       return result.data; // returned result would be inside action.payload
     } catch (e) {
       const error = e as AxiosError | any;
@@ -149,9 +150,6 @@ const initialState: Products = {
   products: [],
 };
 
-/* createSlice() returns 1 object {
-    reducer, action, ...
-} */
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -162,7 +160,6 @@ export const productsSlice = createSlice({
         if (a.category.id > b.category.id) return 1;
         return 0;
       });
-
       state.products = sorted;
     },
 
@@ -172,10 +169,22 @@ export const productsSlice = createSlice({
         if (a.price > b.price) return 1;
         return 0;
       });
-
       state.products = sorted;
     },
+
+    filterProduct: (state, action) => {
+      console.log(action.payload);
+
+      const foundItems = state.products.filter((p) =>
+        p.title.toLowerCase().includes(action.payload)
+      );
+      if (foundItems.length > 0) {
+        state.products = foundItems;
+      } else {
+      }
+    },
   }, // list of methods to modify the state
+
   extraReducers: (build) => {
     build
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
@@ -183,26 +192,31 @@ export const productsSlice = createSlice({
           state.products = action.payload;
         }
       })
+
       .addCase(fetchSingleProduct.fulfilled, (state, action) => {
         if (action.payload) {
           state.product = action.payload;
         }
       })
+
       .addCase(fetchAllCategories.fulfilled, (state, action) => {
         if (action.payload) {
           state.categories = action.payload;
         }
       })
+
       .addCase(createNewProduct.fulfilled, (state, action) => {
         if (action.payload) {
           toast.success("product created successfully");
         }
       })
+
       .addCase(updateProduct.fulfilled, (state, action) => {
         if (action.payload) {
           toast.success("product updated");
         }
       })
+
       .addCase(deleteProduct.fulfilled, (state, action) => {
         if (action.payload) {
           toast.success("product deleted");
@@ -210,9 +224,8 @@ export const productsSlice = createSlice({
       });
   },
 });
-
 //productReducer: current state
 const productsReducer = productsSlice.reducer;
-export const { sortProductsByCategory, sortProductsByPrice } =
+export const { sortProductsByCategory, sortProductsByPrice, filterProduct } =
   productsSlice.actions;
 export default productsReducer;

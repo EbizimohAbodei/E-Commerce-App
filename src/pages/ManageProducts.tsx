@@ -1,7 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import useAppSelector from "../hooks/useAppSelector";
 import {
   Paper,
   TableContainer,
@@ -13,6 +11,8 @@ import {
   TablePagination,
   Button,
 } from "@mui/material";
+import React from "react";
+import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { deleteProduct } from "../redux/reducers/productReducers";
 
@@ -22,6 +22,7 @@ const ManageProducts = () => {
   const dispatch = useAppDispatch();
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const navigate = useNavigate();
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -36,6 +37,7 @@ const ManageProducts = () => {
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id.toString()));
   };
+
   return (
     <div>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>

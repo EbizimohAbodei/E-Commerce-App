@@ -1,6 +1,6 @@
-import axios, { AxiosError } from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { Cart } from "../../types/Products";
+import axios, { AxiosError } from "axios";
 import { User } from "../../types/User";
 import { toast } from "react-toastify";
 
@@ -8,7 +8,6 @@ interface Token {
   access_token: string;
   refresh_token: string;
 }
-
 interface UserDetails {
   isLoggedin: boolean;
   user: User;

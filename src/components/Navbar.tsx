@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
-
 import { FaShoppingCart, FaBars } from "react-icons/fa";
+import { Link, NavLink } from "react-router-dom";
 import useAppSelector from "../hooks/useAppSelector";
-
 const Navbar = () => {
   const [collapse, setCollapse] = useState(true);
   const [total, setTotal] = useState(0);

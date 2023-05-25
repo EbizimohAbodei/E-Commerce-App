@@ -8,6 +8,7 @@ import useAppSelector from "../hooks/useAppSelector";
 import Slider from "../components/Slider";
 
 import { fetchSingleProduct } from "../redux/reducers/productReducers";
+
 const SingleProduct = () => {
   const { product } = useAppSelector((state) => state.productsReducer);
   const { id } = useParams();
@@ -26,6 +27,7 @@ const SingleProduct = () => {
             <div className="images">
               <Slider images={product?.images as Array<string>} />
             </div>
+
             <div>
               <div className="details">
                 <h1>{product.title}</h1>
@@ -37,6 +39,7 @@ const SingleProduct = () => {
                   <p>description:</p>
                   <span>{product.description}</span>
                 </article>
+
                 <button onClick={() => dispatch(addToCart(product))}>
                   Add To Cart <FaCartPlus />
                 </button>

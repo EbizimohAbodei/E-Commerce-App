@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { updateProduct } from "../redux/reducers/productReducers";
-
 const EditProduct = () => {
   const { categories, products } = useAppSelector(
     (state) => state.productsReducer
@@ -41,7 +40,7 @@ const EditProduct = () => {
         categoryId: product?.category.id.toString() as string,
       });
     }
-  }, [data, product]);
+  }, []);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -85,8 +84,6 @@ const EditProduct = () => {
             <option value={category.id}>{category.name}</option>
           ))}
         </select>
-        {/* <input type="file" onChange={handleChangeFile} /> */}
-
         <button>Update Product</button>
       </form>
     </div>
