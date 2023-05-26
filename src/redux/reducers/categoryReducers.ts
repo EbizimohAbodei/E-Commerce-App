@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Category, Product } from "../../types/Products";
+import { Category } from "../../types/Products";
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
 
 export const fetchAllCategories = createAsyncThunk(
   "getAllCategories",

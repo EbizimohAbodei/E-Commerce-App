@@ -29,9 +29,9 @@ export const createUser = createAsyncThunk("createUser", async (data: User) => {
     const error = e as AxiosError | any;
     if (error.request) {
       toast.error(error.response?.data?.message);
-      console.log("error in request: ", error.request);
+      window.prompt("error in request: ", error.request);
     } else {
-      console.log(error.response?.data);
+      alert(error.response?.data);
     }
   }
 });
@@ -45,13 +45,11 @@ export const userAuth = createAsyncThunk("userAuth", async (data: any) => {
     return result.data; // returned result would be inside action.payload
   } catch (e) {
     const error = e as AxiosError | any;
-    console.log(e);
-
     if (error.request) {
       toast.error(error.response?.data?.message);
-      console.log("error in request: ", error.request);
+      window.prompt("error in request: ", error.request);
     } else {
-      console.log(error.response?.data);
+      alert(error.response?.data);
     }
   }
 });
@@ -76,9 +74,9 @@ export const getUser = createAsyncThunk("getUser", async () => {
     const error = e as AxiosError | any;
     if (error.request) {
       toast.error(error.response?.data?.message);
-      console.log("error in request: ", error.request);
+      window.prompt("error in request: ", error.request);
     } else {
-      console.log(error.response?.data);
+      alert(error.response?.data);
     }
   }
 });
@@ -92,13 +90,11 @@ export const updateUser = createAsyncThunk("updateUser", async (data: any) => {
     return result.data; // returned result would be inside action.payload
   } catch (e) {
     const error = e as AxiosError | any;
-    console.log(e);
-
     if (error.request) {
       toast.error(error.response?.data?.message);
-      console.log("error in request: ", error.request);
+      window.prompt("error in request: ", error.request);
     } else {
-      console.log(error.response?.data);
+      alert(error.response?.data);
     }
   }
 });

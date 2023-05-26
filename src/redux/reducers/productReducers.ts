@@ -41,9 +41,9 @@ export const fetchProductsByTitle = createAsyncThunk(
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
@@ -59,14 +59,12 @@ export const fetchSingleProduct = createAsyncThunk(
 
       return result.data;
     } catch (e) {
-      console.log(e);
-
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
@@ -81,14 +79,12 @@ export const fetchProductByCategory = createAsyncThunk(
 
       return result.data;
     } catch (e) {
-      console.log(e);
-
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
@@ -101,17 +97,14 @@ export const fetchProductByJointFilter = createAsyncThunk(
       const result = await axios.get<Product[]>(
         `https://api.escuelajs.co/api/v1/products/?categoryId=${data.categoryId}&price_min=${data.price_min}&price_max=${data.price_max}&title=${data.title}`
       );
-
       return result.data;
     } catch (e) {
-      console.log(e);
-
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
@@ -131,9 +124,9 @@ export const createNewProduct = createAsyncThunk(
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
@@ -152,9 +145,9 @@ export const updateProduct = createAsyncThunk(
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
@@ -172,9 +165,9 @@ export const deleteProduct = createAsyncThunk(
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        console.log("error in request: ", error.request);
+        window.prompt("error in request: ", error.request);
       } else {
-        console.log(error.response?.data);
+        alert(error.response?.data);
       }
     }
   }
