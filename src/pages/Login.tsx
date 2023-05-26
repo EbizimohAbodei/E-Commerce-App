@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
 import { useState, FormEvent, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import { userAuth } from "../redux/reducers/userReducer";
@@ -16,60 +15,59 @@ import {
   Link,
   Avatar,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const user = useAppSelector((state) => state.userReducers);
   const [data, setData] = useState({ email: "", password: "" });
 
   const handleSubmit = (event: FormEvent) => {
     try {
+      if (!data.email || !data.password) {
+        toast.error("missing fields");
+        return;
+      }
       event.preventDefault();
       dispatch(userAuth(data));
-      console.log(user.isLoggedin);
-    } catch (e) {
-      const error = e as AxiosError;
-      if (error.request) {
-        window.prompt("error in request: ", error.request);
-      } else {
-        alert(error.response?.data);
-      }
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
     if (user.isLoggedin) {
       navigate("/products");
     }
-  }, [navigate, user.isLoggedin]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.isLoggedin]);
 
   return (
     <Container component="main">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 3,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "var(--primary-color)" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography
-          component="h1"
-          variant="h3"
-          sx={{ marginBottom: 5, color: "var(--primary-color)" }}
-        >
-          Sign in
-        </Typography>
         <Box
           component="form"
           onSubmit={handleSubmit}
           noValidate
           sx={{ mt: 1, width: { xs: "95%", md: "50%" } }}
         >
+          <Avatar sx={{ m: "auto", bgcolor: "var(--primary-color)" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography
+            component="h1"
+            variant="h3"
+            sx={{ marginBottom: 5, color: "var(--primary-color)" }}
+          >
+            Sign in
+          </Typography>
           <TextField
             margin="normal"
             required

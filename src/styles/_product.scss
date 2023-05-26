@@ -1,19 +1,13 @@
-@use 'card';
-
-.product-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(calc(300px - 1rem), 1fr));
-    gap: 1rem;
-
-    padding: 2rem;
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(300px - 1rem), 1fr));
+  gap: 1rem;
+  padding: 2rem;
 }
 
-.filter{
-    // padding: 1rem;
-    margin: 1rem 0;
-    // display: flex;
-    // background-color: #FBA100;
+.filter {
+  margin: 1rem 0;
 }
-.css-19kzrtu{
-    padding-top: 0 !important;
+.css-19kzrtu {
+  padding-top: 0 !important;
 }

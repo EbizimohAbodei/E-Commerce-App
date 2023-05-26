@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-
-import Footer from "../components/Footer";
 
 import useAppSelector from "../hooks/useAppSelector";
 import { toast } from "react-toastify";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled, useTheme, alpha } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import {
   Box,
@@ -21,6 +19,7 @@ import {
   Toolbar,
   Typography,
   Button,
+  InputBase,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -29,8 +28,59 @@ import {
   DashboardCustomize,
   Home,
 } from "@mui/icons-material";
+import { FaSearch } from "react-icons/fa";
+import { fetchProductsByTitle } from "../redux/reducers/productReducers";
+import useDebounce from "../hooks/useDebounce";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  color: "white",
+  backgroundColor: alpha(theme.palette.common.white, 0.5),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  "&:placeholder": {
+    color: "white",
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "20ch",
+      "&:focus": {
+        width: "30ch",
+      },
+    },
+  },
+}));
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -50,6 +100,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
     marginLeft: 0,
   }),
 }));
+
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -82,17 +133,32 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const AdminRoot = () => {
+  const [searchTitle, setSearchTitle] = useState("");
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  const dispatch = useDispatch<any>();
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
   const { user } = useAppSelector((state) => state.userReducers);
   const navigate = useNavigate();
+
+  const handleSearchTitle = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTitle(event.target.value);
+    },
+    []
+  );
+
+  const debouncedtTitleValue = useDebounce(searchTitle, 500);
+
+  useEffect(() => {
+    dispatch(fetchProductsByTitle(searchTitle));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedtTitleValue]);
   useEffect(() => {
     if (user.role) {
       if (user.role !== "admin") {
@@ -100,7 +166,8 @@ const AdminRoot = () => {
         navigate("/");
       }
     }
-  }, [navigate, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <>
@@ -142,6 +209,16 @@ const AdminRoot = () => {
                 </svg>
               </Typography>
             </Box>
+            <Search>
+              <SearchIconWrapper>
+                <FaSearch />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search product by Title"
+                onChange={handleSearchTitle}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
             <Button variant="contained" color="warning">
               <Link to="/admin/create-product" style={{ color: "white" }}>
                 Create Product

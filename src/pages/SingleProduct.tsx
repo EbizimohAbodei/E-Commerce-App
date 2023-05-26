@@ -25,7 +25,6 @@ const SingleProduct = () => {
             <div className="images">
               <Slider images={product?.images as Array<string>} />
             </div>
-
             <div>
               <div className="details">
                 <h1>{product.title}</h1>

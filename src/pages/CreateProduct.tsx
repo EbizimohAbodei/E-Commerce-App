@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
@@ -32,19 +32,7 @@ const CreateProduct = () => {
     categoryId: "",
   });
 
-  const [file, setFile] = useState<File | null>(null);
   const dispatch = useAppDispatch();
-
-  const handleChange = (
-    event: ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

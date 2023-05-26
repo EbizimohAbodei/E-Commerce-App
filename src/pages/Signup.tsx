@@ -1,10 +1,10 @@
+import axios, { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
-
 import useAppDispatch from "../hooks/useAppDispatch";
-import useAppSelector from "../hooks/useAppSelector";
+
 import { createUser } from "../redux/reducers/userReducer";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Avatar,
@@ -24,24 +24,8 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { MuiFileInput } from "mui-file-input";
+import { toast } from "react-toastify";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 const Signup = () => {
@@ -53,12 +37,20 @@ const Signup = () => {
   const [file, setFile] = useState<File | null>(null);
 
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.userReducers);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
+      if (!name || !email || !password || !passwordConfirmation || !file) {
+        toast.error("missing fields");
+        return;
+      }
+
+      if (!password !== !passwordConfirmation) {
+        toast.error("password mismatch");
+        return;
+      }
       if (file) {
         const formdata = new FormData();
 
@@ -96,29 +88,37 @@ const Signup = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             color: "var(--primary-color)",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "var(--primary-color)" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography
-            component="h1"
-            variant="h3"
-            sx={{ color: "var(--primary-color)" }}
-          >
-            Sign up
-          </Typography>
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 1, width: { xs: "95%", md: "50%" } }}
+            sx={{
+              width: { xs: "95%", md: "50%" },
+            }}
           >
+            <Avatar
+              sx={{
+                bgcolor: "var(--primary-color)",
+                margin: "auto",
+                marginTop: -5,
+              }}
+            >
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography
+              component="h1"
+              variant="h3"
+              sx={{ color: "var(--primary-color)", marginBottom: 3 }}
+            >
+              Sign up
+            </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -135,7 +135,6 @@ const Signup = () => {
                   autoFocus
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   required
@@ -233,7 +232,6 @@ const Signup = () => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

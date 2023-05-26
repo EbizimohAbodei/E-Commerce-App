@@ -73,7 +73,6 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   position: "absolute",
   pointerEvents: "none",
   display: "flex",
-
   alignItems: "center",
   justifyContent: "center",
 }));
@@ -96,11 +95,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Product = () => {
+  const [searchTitle, setSearchTitle] = useState("");
+  const [minPriceSearch, setMinPriceSearch] = useState("");
+  const [maxPriceSearch, setMaxPriceSearch] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const { products } = useAppSelector((state) => state.productsReducer);
   const savedItems = useAppSelector((state) => state.favoriteReducers);
   const categories = useAppSelector((state) => state.categoryReducers);
+
   const [visibleItemCount, setVisibleItemCount] = useState(20);
   const dispatch = useAppDispatch();
+
   const [filter, setFilter] = useState("all");
   const handleChangeFilter = (event: any) => {
     setFilter(event.target.value as string);
@@ -113,10 +118,6 @@ const Product = () => {
     []
   );
 
-  const [searchTitle, setSearchTitle] = useState("");
-  const [minPriceSearch, setMinPriceSearch] = useState("");
-  const [maxPriceSearch, setMaxPriceSearch] = useState("");
-  const [categoryId, setCategoryId] = useState("");
   const debouncedMinValue = useDebounce(minPriceSearch, 600);
   const debouncedMaxValue = useDebounce(maxPriceSearch, 600);
   const debouncedtTitleValue = useDebounce(searchTitle, 500);
@@ -144,13 +145,8 @@ const Product = () => {
         title: debouncedtTitleValue,
       })
     );
-  }, [
-    debouncedMinValue,
-    debouncedMaxValue,
-    debouncedtTitleValue,
-    dispatch,
-    categoryId,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedMinValue, debouncedMaxValue, debouncedtTitleValue]);
 
   const checkedSaved = (item: ProductType) => {
     const foundItem = savedItems.find((product) => product.id === item.id);
@@ -173,7 +169,8 @@ const Product = () => {
     } else {
       dispatch(fetchAllProducts());
     }
-  }, [dispatch, filter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
   const hasMoreItems = products.length > visibleItemCount;
 
   return (
@@ -184,6 +181,7 @@ const Product = () => {
             position="static"
             sx={{
               backgroundColor: "var(--primary-color)",
+
               padding: ".5em 0",
             }}
           >
@@ -386,6 +384,7 @@ const Product = () => {
                   );
                 })}
               </Box>
+
               {hasMoreItems && (
                 <Button
                   sx={{

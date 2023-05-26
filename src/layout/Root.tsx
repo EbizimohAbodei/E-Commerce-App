@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 import Footer from "../components/Footer";
 import {
@@ -22,14 +22,14 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
 
 const Root = (props: Props) => {
   const cart = useAppSelector((state) => state.cartReducers);
   const user = useAppSelector((state) => state.userReducers);
   const navlinks = [
     { link: "/", text: "Home" },
-    { link: "/products", text: "Products" },
+    { link: "/products", text: "Product" },
+    { link: "/favorites", text: "Favorites" },
   ];
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -55,11 +55,9 @@ const Root = (props: Props) => {
           </g>
         </svg>
       </Typography>
-
       <Divider />
-
       {navlinks.map((item) => (
-        <Button sx={{ display: "inline-block", width: "100%" }}>
+        <Button sx={{ display: "inline-block", width: "100%" }} key={item.text}>
           <Link
             key={item.link}
             to={item.link}
@@ -82,6 +80,7 @@ const Root = (props: Props) => {
                 width: "100%",
                 color: "var(--primary-color)",
               }}
+              key={item.text}
             >
               <Link
                 key={item.link}
@@ -217,7 +216,6 @@ const Root = (props: Props) => {
                   />
                 </Box>
               )}
-
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button
                   variant="outlined"
@@ -277,7 +275,7 @@ const Root = (props: Props) => {
             {drawer}
           </Drawer>
         </Box>
-        <Box component="main" sx={{ p: 3 }}>
+        <Box component="main">
           <Toolbar />
           <Outlet />
           <Footer />

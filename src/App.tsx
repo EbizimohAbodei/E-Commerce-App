@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import Root from "./layout/Root";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
@@ -15,6 +15,7 @@ import Signup from "./pages/Signup";
 import useAppSelector from "./hooks/useAppSelector";
 import useAppDispatch from "./hooks/useAppDispatch";
 import { getUser } from "./redux/reducers/userReducer";
+import Favorite from "./pages/Favorite";
 import Admin from "./pages/Admin";
 import AdminRoot from "./layout/AdminRoot";
 import CreateProduct from "./pages/CreateProduct";
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
         path: "/create-account",
         element: <Signup />,
       },
+      {
+        path: "favorites",
+        element: <Favorite />,
+      },
     ],
   },
   {
@@ -85,12 +90,14 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [dispatch, user.isLoggedin]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.isLoggedin]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
     dispatch(fetchAllProducts());
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

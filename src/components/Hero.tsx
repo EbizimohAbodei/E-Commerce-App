@@ -1,9 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Button } from "@mui/material";
 
 const Hero = () => {
-  const toHompage = () => {
-    window.location.href = "/products";
-  };
+  const navigate = useNavigate();
   return (
     <section className="hero">
       <div>
@@ -14,10 +15,17 @@ const Hero = () => {
           maiores deserunt autem soluta in sint tempore quae, perspiciatis sed
           vero blanditiis quo vitae voluptate quisquam enim.{" "}
         </article>
-        <button onClick={toHompage}>Start shopping</button>
+        <Button
+          variant="contained"
+          color="warning"
+          onClick={() => navigate("/products")}
+        >
+          Start shopping
+        </Button>
       </div>
+
       <div>
-        <img src="/images/camera.png" alt="" />
+        <img src="/images/camera.png" alt="camera" />
       </div>
     </section>
   );

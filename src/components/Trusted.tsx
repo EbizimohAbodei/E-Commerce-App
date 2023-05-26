@@ -11,7 +11,7 @@ const Trusted = () => {
   return (
     <div className="trusted">
       {images.map((image) => (
-        <img src={image} alt="" />
+        <img src={image} alt="trusted clients" />
       ))}
     </div>
   );

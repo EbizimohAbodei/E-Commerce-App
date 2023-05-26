@@ -1,1 +1,27 @@
- 
+.footer-distributed {
+  display: flex !important;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+  padding: 1rem;
+  align-items: center;
+  div {
+    display: flex;
+    justify-content: space-between;
+    width: 40rem;
+    &:first-child {
+      width: 10rem;
+    }
+    a {
+      color: white;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  footer {
+    flex-direction: column;
+    div:last-child {
+      width: 90%;
+    }
+  }
+}

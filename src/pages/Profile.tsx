@@ -35,6 +35,7 @@ const Profile = () => {
       });
     }
   }, [user]);
+
   return (
     <Box
       component="form"
