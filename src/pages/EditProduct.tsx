@@ -1,93 +1,141 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import {useState,  FormEvent, useEffect} from 'react'
+import useAppSelector from '../hooks/useAppSelector';
+import { useParams } from 'react-router-dom';
+import useAppDispatch from '../hooks/useAppDispatch';
+import { updateProduct } from '../redux/reducers/productReducers';
+import { TextField, Grid, InputLabel, Select, MenuItem , FormControl, SelectChangeEvent, Button} from '@mui/material';
 
-import useAppSelector from "../hooks/useAppSelector";
-import useAppDispatch from "../hooks/useAppDispatch";
-import { updateProduct } from "../redux/reducers/productReducers";
 const EditProduct = () => {
-  const { categories, products } = useAppSelector(
-    (state) => state.productsReducer
-  );
-  const [data, setData] = useState({
-    title: "",
-    price: "",
-    description: "",
-    categoryId: "",
-  });
-  const handleChange = (
-    event: ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
 
-  const { id } = useParams();
-
-  const dispatch = useAppDispatch();
-
-  const product = products.find((p) => p.id === Number(id));
-  useEffect(() => {
-    if (product) {
-      setData({
-        ...data,
-        title: product?.title as string,
-        price: product?.price.toString() as string,
-        description: product?.description as string,
-        categoryId: product?.category.id.toString() as string,
+    const categories = useAppSelector((state) => state.categoryReducers);
+    const {products} = useAppSelector((state) => state.productsReducer);
+      const [data, setData] = useState({
+        title: "",
+        price: "",
+        description: "",
+        categoryId: "",
       });
-    }
-  }, []);
+  
+    
+    const { id } = useParams()
+    
+      const dispatch = useAppDispatch();
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    const updateData = { ...data, id };
-    dispatch(updateProduct(updateData));
-  };
+    const product = products.find(p => p.id === Number(id));
+      useEffect(() => {
+                if (product) {
+                  setData({
+                    ...data,
+                    title: product?.title as string,
+                    price: product?.price.toString() as string,
+                    description: product?.description as string,
+                    categoryId: product?.category.id.toString() as string,
+                  });
+                }
+   
+          
+      }, []);
+    
+
+    
+    
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        const updateData = {...data, id}
+        dispatch(updateProduct(updateData))
+    }
   return (
     <div className="">
       <form action="" onSubmit={handleSubmit}>
         <h1>Edit Product</h1>
-        <input
-          type="text"
-          placeholder="Title"
+      
+         <Grid container spacing={2}>
+          <Grid item xs={12}>
+
+
+        <TextField
+          autoComplete="given-name"
           name="title"
-          onChange={handleChange}
+          required
+          fullWidth
+          id="Title"
           value={data.title}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setData({...data, title:event.target.value})
+          }
+          label="Title"
+          autoFocus
         />
-        <input
-          type="text"
-          placeholder="Price"
+          </Grid>
+
+           <Grid item xs={12}>
+<TextField
+          autoComplete="given-name"
           name="price"
-          onChange={handleChange}
+          type="number"
+          required
+          fullWidth
+          id="Price"
           value={data.price}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setData({...data, price:event.target.value})
+          }
+          label="Price"
+          autoFocus
         />
-        <textarea
+      
+
+           </Grid>
+
+              <Grid item xs={12}>
+<TextField
+          autoComplete="given-name"
           name="description"
-          id=""
-          cols={30}
-          rows={10}
+          required
+          fullWidth
+          multiline
+          id="description"
           value={data.description}
-          onChange={handleChange}
-          placeholder="Description"
-        ></textarea>
-        <select
-          name="categoryId"
-          id=""
-          value={data.categoryId}
-          onChange={handleChange}
-        >
-          {categories.map((category) => (
-            <option value={category.id}>{category.name}</option>
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setData({...data, description:event.target.value})
+          }
+          label="Description"
+          autoFocus
+        />
+
+              </Grid>
+
+              <Grid item xs={12}>
+<FormControl sx={{ width: "100%" }}>
+                  <InputLabel id="demo-simple-select-label">Category </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    fullWidth
+                    label="Category"
+                    placeholder="Category"
+                    onChange={(event: SelectChangeEvent) =>
+                      setData({...data, categoryId:event.target.value})
+                    }
+                    value={data.categoryId}
+                  >
+                       {categories.map((category) => (
+                         <MenuItem value={category.id}>{category.name}</MenuItem>
+         
           ))}
-        </select>
-        <button>Update Product</button>
+               
+                  </Select>
+                </FormControl>
+                </Grid>
+          </Grid>
+        <Button variant="contained" sx={{margin:"1rem 0 "}}     fullWidth type="submit">Update Product</Button>
+        
+       
+    
+
       </form>
     </div>
   );
-};
+}
 
-export default EditProduct;
+export default EditProduct

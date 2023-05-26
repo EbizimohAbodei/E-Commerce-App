@@ -28,41 +28,83 @@ const navlinks = [
     setMobileOpen((prevState) => !prevState);
   };
 
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        <svg
+          className="react-logo"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="-11.5 -10.23174 23 20.46348"
+        >
+          <title>React Logo</title>
+          <circle cx="0" cy="0" r="2.05" fill="var(--primary-color)" />
+          <g stroke="var(--primary-color)" stroke-width="1" fill="none">
+            <ellipse rx="11" ry="4.2" />
+            <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+            <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+          </g>
+        </svg>
       </Typography>
-      <Divider /> 
-      <List>
-        {navlinks.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <NavLink to={item.link}>
-                {item.text}
-              </NavLink>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+   
+      <Divider />
+
+       {navlinks.map((item) => ( 
+          <Button sx={{display:"inline-block", width:"100%"}}>
+
+                  <Link key={item.link} to={item.link} style={{display:'block', textAlign:"left"}} className="side-link">
+                    {item.text}
+                  </Link>
+          </Button>
+                ))}
+      {user.isLoggedin || user?.user?.email ? (
+
+        <>
+          {[
+            { link: "/signin", text: "Login" },
+            { link: "/create-account", text: "SignUp" },
+          ].map((item) => ( 
+          <Button sx={{display:"inline-block", width:"100%", color:"var(--primary-color)"}}>
+
+  <Link key={item.link} to={item.link} style={{display:'block', textAlign:"left"}}>
+                    {item.text}</Link>
+             
+          </Button>))}
+        
+        </>
+
+           
+
+      ) : (
+      [
+            { link: "/signin", text: "Login" },
+            { link: "/create-account", text: "SignUp" },
+          ].map((item) => ( 
+          <Button sx={{display:"inline-block", width:"100%"}}>
+
+  <Link key={item.link} to={item.link} style={{display:'block', textAlign:"left"}} className="side-link">
+                    {item.text}</Link>
+            
+          </Button>))
+      )}
     </Box>
   );
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-console.log(user.user);
+
 
    
   return (
     <>
       <Box sx={{}}>
-        <CssBaseline />
+        <CssBaseline /> 
         <AppBar
           component="nav"
           variant="elevation"
-          sx={{ backgroundColor: "var(--secondary-color-dark)" }}
+          sx={{ backgroundColor: "var(--secondary-color-dark)", display:'flex', justifyContent:"space-between" }}
         >
-          <Toolbar>
+          <Toolbar sx={{display:'flex', justifyContent:"space-between" }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -70,7 +112,7 @@ console.log(user.user);
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { md: "none" } }}
             >
-              <FaBars color="#1f2c3a" />
+              <FaBars color="#fff" />
             </IconButton>
             <Typography
               variant="h6"
@@ -95,12 +137,12 @@ console.log(user.user);
                 </g>
               </svg>
             </Typography>
-            <Box
+            <Box 
               sx={{
-                display: { xs: "none", md: "flex" },
+                display: { xs: "none", md: "flex",  },
                 alignItems: "center",
                 width: "60%",
-                justifyContent: "space-between",
+                justifyContent: "center", 
               }}
             >
               <Box>
@@ -119,31 +161,43 @@ console.log(user.user);
                 )}
               </Box>
 
+            </Box>
               <Box
                 sx={{
-                  display: { xs: "none", sm: "flex" },
+                  display: { sm: "flex" },
                   alignItems: "center",
-                  width: { xs: "none", sm: "40rem", md: "23rem" },
-                  justifyContent: "space-between",
+                  width: {  sm: "30rem", md: "23rem" },
+                  justifyContent:{ sx:"space-evenly", md:"space-between"},
                 }}
               >
-                {user.isLoggedin || user?.user?.email ? (
-                  <MyMenu
-                    title="account"
-                    links={[
-                      { link: "/profile", text: "Profile" },
-                      { link: "#", text: "Logout" },
-                    ]}
-                  />
-                ) : (
-                  <MyMenu
-                    title="Login/Signup"
-                    links={[
-                      { link: "/signin", text: "Login" },
-                      { link: "/create-account", text: "SignUp" },
-                    ]}
-                  />
+             
+              {user.isLoggedin || user?.user?.email ? (
+                <Box sx={{ display: { xs: 'none', sm: "flex" } }}>
+                
+                   <MyMenu
+                       color="#fff"
+                     title="account"
+                     links={[
+                       { link: "/profile", text: "Profile" },
+                       { link: "#", text: "Logout" },
+                     ]}
+                   />
+               </Box>
+              ) : (
+                   <Box sx={{ display: { xs: 'none', sm: "flex" } }}>
+
+                     <MyMenu
+                       color="#fff"
+                       title="Login/Signup"
+                       links={[
+                         { link: "/signin", text: "Login" },
+                         { link: "/create-account", text: "SignUp" },
+                       ]}
+                     />
+                   </Box>
                 )}
+
+<Box sx={{display:"flex", gap:2}}>
 
                 <Button
                   variant="outlined"
@@ -151,19 +205,20 @@ console.log(user.user);
                     backgroundColor: "var(--secondary-color)",
                     color: "white",
                     border: "none",
+                    
                     "&:hover": {
                       color: "white",
                       backgroundColor: "var(--secondary-color)",
                       border: "none",
                     },
                   }}
-                >
+                  >
                   <Link to="/cart" style={{ color: "white" }}>
                     My Cart
                     <FaShoppingCart
                       color="white"
                       style={{ margin: "0 .3em" }}
-                    />
+                      />
                     <Typography
                       component="span"
                       sx={{
@@ -172,14 +227,14 @@ console.log(user.user);
                         padding: "0 .3rem",
                         borderRadius: 1,
                       }}
-                    >
+                      >
                       {cart.length}
                     </Typography>
                   </Link>
                 </Button>
-                <Avatar src={user?.user?.avatar} alt="logo" />
+                <Avatar src={user?.user?.avatar} alt="logo"  />
+                      </Box>
               </Box>
-            </Box>
           </Toolbar>
         </AppBar>
         <Box component="nav">

@@ -17,11 +17,9 @@ import { getUser } from "./redux/reducers/userReducer";
 import Admin from "./pages/Admin";
 import AdminRoot from "./layout/AdminRoot";
 import CreateProduct from "./pages/CreateProduct";
-import {
-  fetchAllCategories,
-  fetchAllProducts,
-} from "./redux/reducers/productReducers";
-import ManageProducts from "./pages/ManageProducts";
+import { fetchAllProducts } from "./redux/reducers/productReducers";
+import { fetchAllCategories } from "./redux/reducers/categoryReducers";
+
 import EditProduct from "./pages/EditProduct";
 const router = createBrowserRouter([
   {
@@ -57,11 +55,6 @@ const router = createBrowserRouter([
         path: "/create-account",
         element: <Signup />,
       },
-
-      {
-        path: "/admin",
-        element: <Admin />,
-      },
     ],
   },
   {
@@ -78,10 +71,6 @@ const router = createBrowserRouter([
         path: "create-product",
         element: <CreateProduct />,
       },
-      {
-        path: "manage-products",
-        element: <ManageProducts />,
-      },
 
       {
         path: "product/:id",
@@ -97,12 +86,12 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [dispatch, user.isLoggedin]);
+  }, [user.isLoggedin]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
     dispatch(fetchAllProducts());
-  }, [dispatch]);
+  }, []);
   return (
     <>
       <RouterProvider router={router} />

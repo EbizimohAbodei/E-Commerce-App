@@ -1,31 +1,14 @@
-import { FormEvent, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from 'axios';
+import { FormEvent, useRef, useState} from 'react'
+import {  useNavigate } from 'react-router-dom';
+import useAppDispatch from '../hooks/useAppDispatch';
+import useAppSelector from '../hooks/useAppSelector';
+import { createUser } from '../redux/reducers/userReducer';
 
-import useAppDispatch from "../hooks/useAppDispatch";
-import useAppSelector from "../hooks/useAppSelector";
-import { createUser } from "../redux/reducers/userReducer";
-import { User } from "../types/User";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-  Avatar,
-  Box,
-  Button,
-  Select,
-  MenuItem,
-  Container,
-  CssBaseline,
-  InputLabel,
-  FormControl,
-  Grid,
-  TextField,
-  Typography,
-  Link,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Avatar, Box, Button, Select, MenuItem, Container, CssBaseline,InputLabel, FormControl, Grid, TextField, Typography, Link, SelectChangeEvent } from '@mui/material';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { MuiFileInput } from "mui-file-input";
-
 function Copyright(props: any) {
   return (
     <Typography
@@ -47,53 +30,49 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 const Signup = () => {
-  const nameRef = useRef<HTMLInputElement | null>(null);
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-  const fileRef = useRef<HTMLInputElement | null>(null);
-  const roleRef = useRef<HTMLSelectElement | null>(null);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [role, setRole] = useState("");
-  const [file, setFile] = useState<File | null>(null);
 
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.userReducers);
-  const navigate = useNavigate();
+  const [name, setName] =  useState('')
+  const [email, setEmail] =  useState('')
+  const [password, setPassword] =  useState('')
+  const [passwordConfirmation, setPasswordConfirmation] =  useState('')
+  const [role, setRole] =  useState('')
+  const [file, setFile] = useState<File | null>(null)
+  
+  const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.userReducers)
+  const navigate =  useNavigate()
 
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      if (file) {
-        const formdata = new FormData();
 
-        formdata.append("file", file);
-        const resp = await axios.post(
-          "https://api.escuelajs.co/api/v1/files/upload",
-          formdata
-        );
+      
+      if (file) {
+        const formdata = new FormData()
+
+        formdata.append('file',file)
+        const resp = await axios.post("https://api.escuelajs.co/api/v1/files/upload", formdata);
         console.log(resp.data.location);
         if (resp.status === 201) {
-          const data: User = {
-            avatar: resp.data.location,
-            name,
-            email,
-            password,
-            role,
-          };
+          const data:any = { avatar: resp.data.location, name, email, password, role }
+          
+          dispatch(createUser(data))
 
-          dispatch(createUser(data));
-
-          setTimeout(() => navigate("/signin"), 4000);
+  
+          
+      setTimeout(() => navigate("/signin"), 4000);
         }
+        
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    
+} catch (error) {
+  console.log(error);
+  
+}  
+  
+  }
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -205,13 +184,10 @@ const Signup = () => {
               </Grid>
 
               <Grid item>
-                <FormControl sx={{ width: "100%" }}>
+                   <FormControl sx={{ width: "100%" }}>
                   <Typography component="label">Upload Photo</Typography>
-                  <MuiFileInput
-                    value={file}
-                    onChange={(file) => setFile(file)}
-                  />
-                </FormControl>
+                <MuiFileInput value={file} onChange={(file)=>setFile(file)}  />
+                  </FormControl>
               </Grid>
             </Grid>
             <Button
@@ -242,6 +218,6 @@ const Signup = () => {
       </Container>
     </ThemeProvider>
   );
-};
+}
 
-export default Signup;
+export default Signup
