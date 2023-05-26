@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const navlinks = [
     { link: "/", text: "Home" },
-    { link: "/products", text: "Product" },
+    { link: "/products", text: "Products" },
   ];
   return (
     <nav>

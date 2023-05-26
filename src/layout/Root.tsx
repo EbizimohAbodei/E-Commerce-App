@@ -29,7 +29,7 @@ const Root = (props: Props) => {
   const user = useAppSelector((state) => state.userReducers);
   const navlinks = [
     { link: "/", text: "Home" },
-    { link: "/products", text: "Product" },
+    { link: "/products", text: "Products" },
   ];
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);

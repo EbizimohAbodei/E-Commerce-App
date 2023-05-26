@@ -1,6 +1,9 @@
 import React from "react";
 
 const Hero = () => {
+  const toHompage = () => {
+    window.location.href = "/products";
+  };
   return (
     <section className="hero">
       <div>
@@ -11,7 +14,7 @@ const Hero = () => {
           maiores deserunt autem soluta in sint tempore quae, perspiciatis sed
           vero blanditiis quo vitae voluptate quisquam enim.{" "}
         </article>
-        <button>Start shopping</button>
+        <button onClick={toHompage}>Start shopping</button>
       </div>
       <div>
         <img src="/images/camera.png" alt="" />
