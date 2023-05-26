@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
+
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-
 import { HiShoppingCart } from "react-icons/hi";
-import { Link } from "react-router-dom";
 import useDebounce from "../hooks/useDebounce";
 import { addToCart } from "../redux/reducers/cartReducers";
 import {
@@ -29,7 +29,6 @@ import {
   AccordionDetails,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   ListItemButton,
   Paper,
@@ -40,13 +39,10 @@ import {
   fetchAllProducts,
   sortProductsByCategory,
   sortProductsByPrice,
-
   fetchProductByCategory,
   fetchProductByJointFilter,
-
 } from "../redux/reducers/productReducers";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
 import { saveItem } from "../redux/reducers/favoriteReducers";
 import { styled, alpha } from "@mui/material/styles";
 import { Product as ProductType } from "../types/Products";
@@ -55,14 +51,11 @@ import { ExpandMore } from "@mui/icons-material";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-
   color: "white",
-
   backgroundColor: alpha(theme.palette.common.white, 0.5),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-
   "&:placeholder": {
     color: "white",
   },
@@ -106,29 +99,27 @@ const Product = () => {
   const { products } = useAppSelector((state) => state.productsReducer);
   const savedItems = useAppSelector((state) => state.favoriteReducers);
   const categories = useAppSelector((state) => state.categoryReducers);
-
   const [visibleItemCount, setVisibleItemCount] = useState(20);
   const dispatch = useAppDispatch();
-
   const [filter, setFilter] = useState("all");
   const handleChangeFilter = (event: any) => {
     setFilter(event.target.value as string);
   };
 
-  
   const handleSearchTitle = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTitle(event.target.value);
     },
     []
-    );
-    const [searchTitle, setSearchTitle] = useState("");
-    const [minPriceSearch, setMinPriceSearch] = useState("");
-    const [maxPriceSearch, setMaxPriceSearch] = useState("");
-    const [categoryId, setCategoryId] = useState("");
-    const debouncedMinValue = useDebounce(minPriceSearch, 600);
-    const debouncedMaxValue = useDebounce(maxPriceSearch, 600);
-    const debouncedtTitleValue = useDebounce(searchTitle, 500);
+  );
+
+  const [searchTitle, setSearchTitle] = useState("");
+  const [minPriceSearch, setMinPriceSearch] = useState("");
+  const [maxPriceSearch, setMaxPriceSearch] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const debouncedMinValue = useDebounce(minPriceSearch, 600);
+  const debouncedMaxValue = useDebounce(maxPriceSearch, 600);
+  const debouncedtTitleValue = useDebounce(searchTitle, 500);
 
   const handleChangeInputMin = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,7 +127,6 @@ const Product = () => {
     },
     []
   );
-
 
   const handleChangeInputMax = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,7 +136,6 @@ const Product = () => {
   );
 
   useEffect(() => {
-  
     dispatch(
       fetchProductByJointFilter({
         categoryId,
@@ -155,8 +144,13 @@ const Product = () => {
         title: debouncedtTitleValue,
       })
     );
-  }, [debouncedMinValue, debouncedMaxValue, debouncedtTitleValue]);
-
+  }, [
+    debouncedMinValue,
+    debouncedMaxValue,
+    debouncedtTitleValue,
+    dispatch,
+    categoryId,
+  ]);
 
   const checkedSaved = (item: ProductType) => {
     const foundItem = savedItems.find((product) => product.id === item.id);
@@ -166,11 +160,8 @@ const Product = () => {
     return false;
   };
 
-
-
   const loadMoreItems = () => {
     const newVisibleItemCount = visibleItemCount + 20;
-
     setVisibleItemCount(newVisibleItemCount);
   };
 
@@ -182,10 +173,8 @@ const Product = () => {
     } else {
       dispatch(fetchAllProducts());
     }
-  }, [filter]);
+  }, [dispatch, filter]);
   const hasMoreItems = products.length > visibleItemCount;
-
- 
 
   return (
     <section style={{ width: "100%" }}>
@@ -195,7 +184,6 @@ const Product = () => {
             position="static"
             sx={{
               backgroundColor: "var(--primary-color)",
-
               padding: ".5em 0",
             }}
           >
@@ -398,7 +386,6 @@ const Product = () => {
                   );
                 })}
               </Box>
-
               {hasMoreItems && (
                 <Button
                   sx={{

@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import { Link, Outlet, useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import Footer from "../components/Footer";
 
@@ -7,9 +7,28 @@ import useAppSelector from "../hooks/useAppSelector";
 import { toast } from "react-toastify";
 import { styled, useTheme } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import { Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Button} from "@mui/material";
-import {Menu as MenuIcon, ChevronLeft, ChevronRight, Mail, Inbox, DashboardCustomize, Home} from '@mui/icons-material';
-
+import {
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Button,
+} from "@mui/material";
+import {
+  Menu as MenuIcon,
+  ChevronLeft,
+  ChevronRight,
+  DashboardCustomize,
+  Home,
+} from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -31,7 +50,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
     marginLeft: 0,
   }),
 }));
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -58,45 +76,36 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   padding: theme.spacing(0, 1),
 
-  
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
 
-
 const AdminRoot = () => {
+  const theme = useTheme();
+  const [open, setOpen] = useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-    const theme = useTheme();
-    const [open, setOpen] = useState(true);
-
-    const handleDrawerOpen = () => {
-      setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-      setOpen(false);
-    };
-  const {user} = useAppSelector((state) => state.userReducers);
-const navigate =  useNavigate()
+  const { user } = useAppSelector((state) => state.userReducers);
+  const navigate = useNavigate();
   useEffect(() => {
-
-  
-    
     if (user.role) {
-
-      if (user.role !== 'admin') {
-        
-        toast.warn('invalid access')
-        navigate('/')
+      if (user.role !== "admin") {
+        toast.warn("invalid access");
+        navigate("/");
       }
     }
-  },[user])
+  }, [navigate, user]);
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-
         <AppBar
           position="fixed"
           open={open}
@@ -133,7 +142,6 @@ const navigate =  useNavigate()
                 </svg>
               </Typography>
             </Box>
-
             <Button variant="contained" color="warning">
               <Link to="/admin/create-product" style={{ color: "white" }}>
                 Create Product
@@ -141,7 +149,6 @@ const navigate =  useNavigate()
             </Button>
           </Toolbar>
         </AppBar>
-
         <Drawer
           sx={{
             width: drawerWidth,
@@ -174,16 +181,15 @@ const navigate =  useNavigate()
                 link: "/admin",
                 icon: <DashboardCustomize htmlColor="white" />,
               },
-              { text: "Home", link: "/" , icon: <Home htmlColor="white" />},
+              { text: "Home", link: "/", icon: <Home htmlColor="white" /> },
             ].map((item, index) => (
-              <ListItem key={item.text} disablePadding sx={{borderColor:"white"}}>
+              <ListItem
+                key={item.text}
+                disablePadding
+                sx={{ borderColor: "white" }}
+              >
                 <ListItemButton>
-                  <Link
-                    to={item.link}
-                 
-
-                    className="dash-links"
-                  >
+                  <Link to={item.link} className="dash-links">
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={item.text} sx={{ color: "white" }} />
                   </Link>
@@ -191,12 +197,9 @@ const navigate =  useNavigate()
               </ListItem>
             ))}
           </List>
-          
         </Drawer>
-
-        <Main open={open} >
+        <Main open={open}>
           <DrawerHeader />
-
           <Outlet />
         </Main>
       </Box>

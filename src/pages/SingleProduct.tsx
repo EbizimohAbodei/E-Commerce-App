@@ -1,26 +1,22 @@
 import { useEffect } from "react";
-import {  FaCartPlus } from "react-icons/fa";
+import { FaCartPlus } from "react-icons/fa";
+
 import useAppDispatch from "../hooks/useAppDispatch";
-
-
 import { addToCart } from "../redux/reducers/cartReducers";
 import { useParams } from "react-router-dom";
 import useAppSelector from "../hooks/useAppSelector";
 import Slider from "../components/Slider";
-
 import { fetchSingleProduct } from "../redux/reducers/productReducers";
-const SingleProduct = () => {
-  const {product} = useAppSelector((state) => state.productsReducer);
-  const { id } = useParams();
 
+const SingleProduct = () => {
+  const { product } = useAppSelector((state) => state.productsReducer);
+  const { id } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id as string));
-  }, []);
+  }, [dispatch, id]);
 
-
-      
   return (
     <>
       {product && (
@@ -32,7 +28,7 @@ const SingleProduct = () => {
 
             <div>
               <div className="details">
-              <h1>{product.title}</h1>
+                <h1>{product.title}</h1>
                 <article>
                   <p>price:</p>
                   <span>{product.price}</span>
@@ -41,8 +37,9 @@ const SingleProduct = () => {
                   <p>description:</p>
                   <span>{product.description}</span>
                 </article>
-
-                <button onClick={()=> dispatch(addToCart(product))}>Add To Cart <FaCartPlus/></button>
+                <button onClick={() => dispatch(addToCart(product))}>
+                  Add To Cart <FaCartPlus />
+                </button>
               </div>
             </div>
           </section>

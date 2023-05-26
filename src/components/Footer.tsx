@@ -1,13 +1,8 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React from "react";
+import Navbar from "./Navbar";
 
 const Footer = () => {
-  return (
-      <div className='footer'>
-          
-      
-    </div>
-  )
-}
+  return <div className="footer"></div>;
+};
 
-export default Footer
+export default Footer;

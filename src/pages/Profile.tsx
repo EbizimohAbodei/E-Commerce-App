@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import useAppSelector from "../hooks/useAppSelector";
 import {
@@ -12,20 +13,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/reducers/userReducer";
 
 const Profile = () => {
   const { user } = useAppSelector((state) => state.userReducers);
-  const dispatch  = useDispatch<any>() 
-  
+  const dispatch = useDispatch<any>();
   const [data, setData] = useState({ name: "", email: "", role: "", id: 0 });
-  
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
 
-    dispatch(updateUser(data))
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    dispatch(updateUser(data));
   };
+
   useEffect(() => {
     if (user) {
       setData({
@@ -37,7 +36,6 @@ const Profile = () => {
     }
   }, [user]);
   return (
-    // <div className="account page">
     <Box
       component="form"
       noValidate
@@ -67,7 +65,6 @@ const Profile = () => {
             autoFocus
           />
         </Grid>
-
         <Grid item xs={12}>
           <TextField
             required
@@ -83,7 +80,6 @@ const Profile = () => {
             autoComplete="email"
           />
         </Grid>
-
         <Grid item xs={12}>
           <FormControl sx={{ width: "100%" }}>
             <InputLabel id="demo-simple-select-label">Role </InputLabel>
@@ -118,8 +114,6 @@ const Profile = () => {
         Update profile
       </Button>
     </Box>
-
-    // </div>
   );
 };
 

@@ -1,9 +1,7 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 import { Category, Product } from "../../types/Products";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-
 
 export const fetchAllCategories = createAsyncThunk(
   "getAllCategories",
@@ -25,9 +23,7 @@ export const fetchAllCategories = createAsyncThunk(
   }
 );
 
-const initialState: Category[] = []
-
-
+const initialState: Category[] = [];
 
 export const categorySlice = createSlice({
   name: "user",
@@ -36,12 +32,9 @@ export const categorySlice = createSlice({
   extraReducers: (build) => {
     build.addCase(fetchAllCategories.fulfilled, (state, action) => {
       if (action.payload) {
-       return action.payload;
+        return action.payload;
       }
     });
-   
-  
-    
   },
 });
 

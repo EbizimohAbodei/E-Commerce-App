@@ -1,13 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import useAppSelector from "../hooks/useAppSelector";
-import axios from "axios";
 import { toast } from "react-toastify";
+import axios, { AxiosError } from "axios";
+
+import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import {
   createNewProduct,
   fetchAllProducts,
 } from "../redux/reducers/productReducers";
-import { Product } from "../types/Products";
 import {
   TextField,
   Grid,
@@ -21,10 +21,10 @@ import {
 } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
 import { uploadMultipleFiles } from "../utils/fetch";
+
 const CreateProduct = () => {
   const [files, setFiles] = useState<File[] | []>([]);
   const categories = useAppSelector((state) => state.categoryReducers);
-
   const [data, setData] = useState({
     title: "",
     price: "",
@@ -34,6 +34,7 @@ const CreateProduct = () => {
 
   const [file, setFile] = useState<File | null>(null);
   const dispatch = useAppDispatch();
+
   const handleChange = (
     event: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -53,22 +54,24 @@ const CreateProduct = () => {
     }
     try {
       if (files.length > 0) {
-        const imagelinks = await uploadMultipleFiles(
+        const imagelinks = (await uploadMultipleFiles(
           files,
           "https://api.escuelajs.co/api/v1/files/upload"
-        ) as string[]
+        )) as string[];
 
         if (imagelinks?.length > 1) {
-                const sentData:any = { ...data, images: imagelinks }
-          dispatch(createNewProduct(sentData))
-          dispatch(fetchAllProducts())
+          const sentData: any = { ...data, images: imagelinks };
+          dispatch(createNewProduct(sentData));
+          dispatch(fetchAllProducts());
         }
-
-      
-       
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      const error = e as AxiosError;
+      if (error.request) {
+        window.prompt("error in request: ", error.request);
+      } else {
+        alert(error.response?.data);
+      }
     }
   };
   return (
@@ -101,7 +104,6 @@ const CreateProduct = () => {
               }
             />
           </Grid>
-
           <Grid item xs={12}>
             <TextField
               autoComplete="given-name"
@@ -118,7 +120,6 @@ const CreateProduct = () => {
               autoFocus
             />
           </Grid>
-
           <Grid item xs={12}>
             <FormControl sx={{ width: "100%" }}>
               <InputLabel id="demo-simple-select-label">Category </InputLabel>
@@ -139,7 +140,6 @@ const CreateProduct = () => {
               </Select>
             </FormControl>
           </Grid>
-
           <Grid item>
             <FormControl sx={{ width: "100%" }}>
               <Typography component="label">Upload product photos</Typography>
@@ -151,8 +151,12 @@ const CreateProduct = () => {
             </FormControl>
           </Grid>
         </Grid>
-
-        <Button variant="contained" sx={{ margin: "1rem 0 " }} fullWidth type="submit">
+        <Button
+          variant="contained"
+          sx={{ margin: "1rem 0 " }}
+          fullWidth
+          type="submit"
+        >
           Create Product
         </Button>
       </form>

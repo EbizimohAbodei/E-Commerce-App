@@ -1,51 +1,59 @@
 import React from "react";
-import useAppSelector from "../hooks/useAppSelector";
 import { FaMinus, FaPlus } from "react-icons/fa";
+
+import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { incrementQuantity, decrementQuantity, removeFromCart } from "../redux/reducers/cartReducers";
-
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography , Box} from "@mui/material";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+} from "../redux/reducers/cartReducers";
+import {
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+  Box,
+} from "@mui/material";
 const Cart = () => {
-  const cart = useAppSelector((state) => state.cartReducers)
-  
-  const dispatch = useAppDispatch()
-  
-    const getTotalPrice = () => {
-      return cart.reduce(
-        (accumulator, item) =>
-          accumulator +
-          item.quantity *
-             item.price,
-        0
-      );
-    };
-
-    const getTotalAmount = () => {
-      return cart.reduce(
-        (accumulator, item) => accumulator + item.quantity,
-        0
-      );
+  const cart = useAppSelector((state) => state.cartReducers);
+  const dispatch = useAppDispatch();
+  const getTotalPrice = () => {
+    return cart.reduce(
+      (accumulator, item) => accumulator + item.quantity * item.price,
+      0
+    );
   };
-  
-const [page, setPage] = React.useState(0);
-const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-const handleChangePage = (event: unknown, newPage: number) => {
-  setPage(newPage);
-};
+  const getTotalAmount = () => {
+    return cart.reduce((accumulator, item) => accumulator + item.quantity, 0);
+  };
 
-const handleChangeRowsPerPage = (
-  event: React.ChangeEvent<HTMLInputElement>
-) => {
-  setRowsPerPage(+event.target.value);
-  setPage(0);
-};
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   return (
     <div className="page">
       {cart.length > 0 ? (
         <>
-          <Box sx={{ display: {xs: "block", lg:"flex"} }}>
+          <Box sx={{ display: { xs: "block", lg: "flex" } }}>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
@@ -108,7 +116,12 @@ const handleChangeRowsPerPage = (
                                 alt={item.title}
                                 width={50}
                               />
-                              <Typography variant="h5" sx={{fontSize:{xs: 15, md:20}}}>{item.title}</Typography> 
+                              <Typography
+                                variant="h5"
+                                sx={{ fontSize: { xs: 15, md: 20 } }}
+                              >
+                                {item.title}
+                              </Typography>
                             </TableCell>
                             <TableCell align="left">
                               <div className="counter">
@@ -190,8 +203,6 @@ const handleChangeRowsPerPage = (
           <h2>Empty Cart</h2>
         </div>
       )}
-
-   
     </div>
   );
 };
