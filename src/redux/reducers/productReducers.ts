@@ -181,13 +181,11 @@ interface Products {
 const initialState: Products = {
   product: {
     id: 0,
-    category: { id: 0, name: "", creationAt: "", image: "", updatedAt: "" },
-    creationAt: "",
+    category: { id: 0, name: "", image: "" },
     description: "",
     images: [],
     price: 0,
     title: "",
-    updatedAt: "",
   },
 
   products: [],
