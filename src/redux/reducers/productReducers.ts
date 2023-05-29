@@ -1,8 +1,8 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
-import { Category, Product } from "../../types/Products";
+import { Product } from "../../types/Products";
 
 interface Filter {
   categoryId: string;
@@ -193,18 +193,13 @@ const initialState: Products = {
   products: [],
 };
 
-/* createSlice() returns 1 object {
-    reducer, action, ...
-} */
 export const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     sortProductsByCategory: (state) => {
       const sorted = [...state.products].sort((a, b) => {
-        if (a.category.id < b.category.id) return -1;
-        if (a.category.id > b.category.id) return 1;
-        return 0;
+        return a.category.id - b.category.id;
       });
 
       state.products = sorted;

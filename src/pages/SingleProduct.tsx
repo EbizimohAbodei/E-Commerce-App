@@ -20,7 +20,7 @@ const SingleProduct = () => {
   return (
     <>
       {product && (
-        <div>
+        <div style={{ minHeight: "78vh" }}>
           <section className="single-product-details">
             <div className="images">
               <Slider images={product?.images as Array<string>} />

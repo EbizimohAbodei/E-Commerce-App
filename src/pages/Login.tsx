@@ -50,6 +50,7 @@ const Login = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          minHeight: "80vh",
         }}
       >
         <Box

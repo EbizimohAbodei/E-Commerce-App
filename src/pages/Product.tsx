@@ -102,7 +102,6 @@ const Product = () => {
   const { products } = useAppSelector((state) => state.productsReducer);
   const savedItems = useAppSelector((state) => state.favoriteReducers);
   const categories = useAppSelector((state) => state.categoryReducers);
-
   const [visibleItemCount, setVisibleItemCount] = useState(20);
   const dispatch = useAppDispatch();
 
@@ -234,7 +233,6 @@ const Product = () => {
           </AppBar>
         </Box>
       </div>
-
       <Grid container spacing={2}>
         <Grid item xs={5} md={2}>
           <Paper>

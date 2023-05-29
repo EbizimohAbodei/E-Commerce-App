@@ -93,6 +93,7 @@ const Signup = () => {
             flexDirection: "column",
             alignItems: "center",
             color: "var(--primary-color)",
+            minHeight: "80vh",
           }}
         >
           <Box

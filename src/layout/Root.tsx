@@ -117,7 +117,11 @@ const Root = (props: Props) => {
 
   return (
     <>
-      <Box sx={{}}>
+      <Box
+        sx={{
+          display: "grid",
+        }}
+      >
         <CssBaseline />
         <AppBar
           component="nav"

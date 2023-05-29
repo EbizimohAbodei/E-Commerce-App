@@ -3,7 +3,6 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
 import { User } from "../../types/User";
-import { Cart } from "../../types/Products";
 interface UserDetails {
   isLoggedin: boolean;
   user: User;
@@ -76,7 +75,7 @@ export const getUser = createAsyncThunk("getUser", async () => {
       toast.error(error.response?.data?.message);
       window.prompt("error in request: ", error.request);
     } else {
-      alert(error.response?.data);
+      // alert(error.response?.data);
     }
   }
 });
