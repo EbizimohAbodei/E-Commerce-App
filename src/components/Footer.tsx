@@ -14,10 +14,13 @@ const Footer = () => {
           <Link to="#">
             <Twitter />
           </Link>
-          <Link to="https://www.linkedin.com/in/abodei-ebizimoh-94477389/">
+          <Link
+            to="https://www.linkedin.com/in/abodei-ebizimoh-94477389/"
+            target="_blank"
+          >
             <LinkedIn />
           </Link>
-          <Link to="https://github.com/EbizimohAbodei">
+          <Link to="https://github.com/EbizimohAbodei" target="_blank">
             <GitHub />
           </Link>
         </div>
