@@ -36,7 +36,7 @@ const Favorite = () => {
   };
 
   return (
-    <div style={{ minHeight: "78vh" }}>
+    <div>
       {favorite.length > 0 ? (
         <>
           <Box sx={{ display: { xs: "block", lg: "flex", marginTop: 10 } }}>

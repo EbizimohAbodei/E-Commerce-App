@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
@@ -32,6 +33,7 @@ const CreateProduct = () => {
     categoryId: "",
   });
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: FormEvent) => {
@@ -47,10 +49,13 @@ const CreateProduct = () => {
           "https://api.escuelajs.co/api/v1/files/upload"
         )) as string[];
 
-        if (imagelinks?.length > 1) {
+        if (imagelinks?.length > 0) {
           const sentData: any = { ...data, images: imagelinks };
           dispatch(createNewProduct(sentData));
           dispatch(fetchAllProducts());
+          setTimeout(() => {
+            navigate("/admin");
+          }, 1000);
         }
       }
     } catch (e) {

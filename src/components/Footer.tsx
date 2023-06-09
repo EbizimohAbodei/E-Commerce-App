@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <Paper>
+    <Paper sx={{ marginTop: "auto" }}>
       <footer className="footer-distributed">
         <div className="footer-right">
           <Link to="#">
@@ -27,7 +27,7 @@ const Footer = () => {
           <Link to="/create-account">Sign Up</Link>
           <Link to="/sign">Login</Link>
           <Link to="#">Contact</Link>
-          <span style={{ color: "white" }}>Online Store &copy; 2023</span>
+          <span style={{ color: "white" }}>&copy; 2023</span>
         </div>
       </footer>
     </Paper>

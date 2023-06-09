@@ -27,8 +27,8 @@ const EditProduct = () => {
 
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const product = products.find((p) => p.id === Number(id));
 
+  const product = products.find((p) => p.id === Number(id));
   useEffect(() => {
     if (product) {
       setData({
@@ -39,7 +39,8 @@ const EditProduct = () => {
         categoryId: product?.category.id.toString() as string,
       });
     }
-  }, [data, product]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();

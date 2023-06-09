@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Product } from "../../types/Products";
 import { toast } from "react-toastify";
+
+import { Product } from "../../types/Products";
+
 const initialState: Product[] = [];
 
 const favoriteSlice = createSlice({
@@ -25,17 +27,13 @@ const favoriteSlice = createSlice({
       toast.success("item removed");
     },
 
-    updateCartAfterRefresh: (state, action) => {
-      state.push(...action.payload);
+    emptyFavorites: (state) => {
+      state = [];
     },
   },
 });
 
-export const {
-  saveItem,
+export const { saveItem, removeItem } = favoriteSlice.actions;
 
-  removeItem,
-  updateCartAfterRefresh,
-} = favoriteSlice.actions;
-
+export const { emptyFavorites } = favoriteSlice.actions;
 export default favoriteSlice.reducer;

@@ -60,7 +60,6 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   position: "absolute",
   pointerEvents: "none",
   display: "flex",
-
   alignItems: "center",
   justifyContent: "center",
 }));
@@ -230,7 +229,6 @@ const AdminRoot = () => {
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",

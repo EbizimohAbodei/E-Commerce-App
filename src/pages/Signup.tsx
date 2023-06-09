@@ -1,10 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import useAppDispatch from "../hooks/useAppDispatch";
-
 import { createUser } from "../redux/reducers/userReducer";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Avatar,
@@ -25,6 +24,24 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { MuiFileInput } from "mui-file-input";
 import { toast } from "react-toastify";
+
+function Copyright(props: any) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -68,6 +85,7 @@ const Signup = () => {
             password,
             role,
           };
+
           dispatch(createUser(data));
           setTimeout(() => navigate("/signin"), 4000);
         }
@@ -88,35 +106,26 @@ const Signup = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 3,
+            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             color: "var(--primary-color)",
-            minHeight: "80vh",
           }}
         >
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{
-              width: { xs: "95%", md: "50%" },
-            }}
+            sx={{ mt: 1, width: { xs: "95%", md: "50%" } }}
           >
-            <Avatar
-              sx={{
-                bgcolor: "var(--primary-color)",
-                margin: "auto",
-                marginTop: -5,
-              }}
-            >
+            <Avatar sx={{ bgcolor: "var(--primary-color)", margin: "auto" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography
               component="h1"
               variant="h3"
-              sx={{ color: "var(--primary-color)", marginBottom: 3 }}
+              sx={{ color: "var(--primary-color)", marginBottom: 8 }}
             >
               Sign up
             </Typography>
@@ -136,6 +145,7 @@ const Signup = () => {
                   autoFocus
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -233,6 +243,7 @@ const Signup = () => {
             </Grid>
           </Box>
         </Box>
+        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

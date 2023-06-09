@@ -104,7 +104,6 @@ const Product = () => {
   const categories = useAppSelector((state) => state.categoryReducers);
   const [visibleItemCount, setVisibleItemCount] = useState(20);
   const dispatch = useAppDispatch();
-
   const [filter, setFilter] = useState("all");
   const handleChangeFilter = (event: any) => {
     setFilter(event.target.value as string);

@@ -4,10 +4,12 @@
   background-color: var(--primary-color);
   padding: 1rem;
   align-items: center;
+  height: 7rem;
+
   div {
     display: flex;
     justify-content: space-between;
-    width: 40rem;
+    width: 30rem;
     &:first-child {
       width: 10rem;
     }

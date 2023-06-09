@@ -21,6 +21,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+
 const Cart = () => {
   const cart = useAppSelector((state) => state.cartReducers);
   const dispatch = useAppDispatch();

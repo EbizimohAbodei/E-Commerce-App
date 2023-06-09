@@ -6,9 +6,10 @@ const Benefits = () => {
       <header>
         <h2>Why Use Our Services</h2>{" "}
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque illum
-          possimus, repellendus quaerat molestiae in sequi eaque voluptatem
-          tempore corrupti.
+          Choose our online shopping service for a convenient and diverse
+          shopping experience, offering a wide range of high-quality products.
+          With dedicated customer support and secure payment options, we
+          prioritize your satisfaction and ensure a hassle-free experience.
         </p>
       </header>
       <article>
@@ -17,11 +18,11 @@ const Benefits = () => {
             <img src="/svgs/quality.svg" alt="benefits" />
           </section>
           <section>
-            <h3>Best Quality</h3>
+            <h3>Secure Payments</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-              delectus distinctio possimus exercitationem incidunt saepe
-              molestias,
+              Our online shopping service provides secure payment options to
+              safeguard your financial information and ensure a worry-free
+              shopping experience.
             </p>
           </section>
         </div>
@@ -31,9 +32,9 @@ const Benefits = () => {
           </section>
           <h3>Best Quality</h3>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-            delectus distinctio possimus exercitationem incidunt saepe
-            molestias,
+            Our online shopping service offers the best quality products from
+            trusted brands, ensuring that you receive top-notch merchandise that
+            meets your expectations.
           </p>
         </div>
       </article>

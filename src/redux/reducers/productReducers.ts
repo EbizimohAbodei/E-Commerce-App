@@ -1,15 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { createSlice, createAsyncThunk, Reducer } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import axios, { AxiosError } from "axios";
 
-import { Product } from "../../types/Products";
-
-interface Filter {
-  categoryId: string;
-  price_min: string;
-  price_max: string;
-  title: string;
-}
+import { Product, Filter } from "../../types/Products";
 
 export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
   try {
@@ -41,9 +34,9 @@ export const fetchProductsByTitle = createAsyncThunk(
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        console.log("error in request: ", error.request);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -59,12 +52,14 @@ export const fetchSingleProduct = createAsyncThunk(
 
       return result.data;
     } catch (e) {
+      console.log(e);
+
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        console.log("error in request: ", error.request);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -79,12 +74,14 @@ export const fetchProductByCategory = createAsyncThunk(
 
       return result.data;
     } catch (e) {
+      console.log(e);
+
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        console.log("error in request: ", error.request);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -97,14 +94,15 @@ export const fetchProductByJointFilter = createAsyncThunk(
       const result = await axios.get<Product[]>(
         `https://api.escuelajs.co/api/v1/products/?categoryId=${data.categoryId}&price_min=${data.price_min}&price_max=${data.price_max}&title=${data.title}`
       );
+
       return result.data;
     } catch (e) {
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        console.log("error in request: ", error.request);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -118,15 +116,14 @@ export const createNewProduct = createAsyncThunk(
         "https://api.escuelajs.co/api/v1/products",
         data
       );
-
       return result.data; // returned result would be inside action.payload
     } catch (e) {
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        console.log("error in request: ", error.response);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -145,9 +142,9 @@ export const updateProduct = createAsyncThunk(
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        console.log("error in request: ", error.request);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -160,14 +157,15 @@ export const deleteProduct = createAsyncThunk(
       const result = await axios.delete(
         `https://api.escuelajs.co/api/v1/products/${id}`
       );
+      console.log("res", result);
       return result.data; // returned result would be inside action.payload
     } catch (e) {
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
-        window.prompt("error in request: ", error.request);
+        // console.log("error in request: ", error.request);
       } else {
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   }
@@ -187,7 +185,6 @@ const initialState: Products = {
     price: 0,
     title: "",
   },
-
   products: [],
 };
 
@@ -197,7 +194,9 @@ export const productsSlice = createSlice({
   reducers: {
     sortProductsByCategory: (state) => {
       const sorted = [...state.products].sort((a, b) => {
-        return a.category.id - b.category.id;
+        if (a.category.id < b.category.id) return -1;
+        if (a.category.id > b.category.id) return 1;
+        return 0;
       });
 
       state.products = sorted;
@@ -212,9 +211,8 @@ export const productsSlice = createSlice({
 
       state.products = sorted;
     },
-    filterProduct: (state, action) => {
-      console.log(action.payload);
 
+    filterProduct: (state, action) => {
       const foundItems = state.products.filter((p) =>
         p.title.toLowerCase().includes(action.payload)
       );
@@ -223,12 +221,17 @@ export const productsSlice = createSlice({
       } else {
       }
     },
+
+    emptyProducts: (state) => {
+      state.products = [];
+    },
   }, // list of methods to modify the state
   extraReducers: (build) => {
     build
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         if (action.payload) {
           state.products = action.payload;
+          return;
         }
       })
       .addCase(fetchSingleProduct.fulfilled, (state, action) => {
@@ -236,17 +239,21 @@ export const productsSlice = createSlice({
           state.product = action.payload;
         }
       })
-
       .addCase(createNewProduct.fulfilled, (state, action) => {
         if (action.payload) {
           toast.success("product created successfully");
-          window.location.href = "/admin";
+          state.products.push(action.payload);
         }
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         if (action.payload) {
           toast.success("product updated");
-          window.location.href = "";
+
+          const foundIndex = state.products.findIndex(
+            (p) => p.id === action.payload.id
+          );
+
+          state.products[foundIndex] = action.payload;
         }
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
@@ -258,6 +265,7 @@ export const productsSlice = createSlice({
       .addCase(fetchProductByCategory.fulfilled, (state, action) => {
         if (action.payload) {
           state.products = action.payload;
+          return;
         }
       })
       .addCase(fetchProductByJointFilter.fulfilled, (state, action) => {
@@ -274,7 +282,12 @@ export const productsSlice = createSlice({
 });
 
 //productReducer: current state
-const productsReducer = productsSlice.reducer;
-export const { sortProductsByCategory, sortProductsByPrice, filterProduct } =
-  productsSlice.actions;
+const productsReducer = productsSlice.reducer as Reducer<Products>;
+
+export const {
+  sortProductsByCategory,
+  sortProductsByPrice,
+  filterProduct,
+  emptyProducts,
+} = productsSlice.actions;
 export default productsReducer;

@@ -118,9 +118,7 @@ const Root = (props: Props) => {
   return (
     <>
       <Box
-        sx={{
-          display: "grid",
-        }}
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
         <CssBaseline />
         <AppBar
@@ -227,7 +225,6 @@ const Root = (props: Props) => {
                     backgroundColor: "var(--secondary-color)",
                     color: "white",
                     border: "none",
-
                     "&:hover": {
                       color: "white",
                       backgroundColor: "var(--secondary-color)",
@@ -279,7 +276,10 @@ const Root = (props: Props) => {
             {drawer}
           </Drawer>
         </Box>
-        <Box component="main">
+        <Box
+          component="main"
+          sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        >
           <Toolbar />
           <Outlet />
           <Footer />
