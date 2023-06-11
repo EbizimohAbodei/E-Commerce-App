@@ -1,15 +1,11 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { user1, user2, user3, user4, users } from "../data/users";
+import { users } from "../data/users";
 import { User } from "../../types/User";
 
 const userServer = setupServer(
   // Describe the requests to mock.
   rest.get("https://api.escuelajs.co/api/v1/users", (req, res, ctx) => {
-    /* 
-        req: to access params and wuiries of the request
-        res: method to send data back
-        ctx: method to construct the content of returned data */
     return res(ctx.json(users));
   }),
 
@@ -34,7 +30,7 @@ const userServer = setupServer(
   rest.post(
     " https://api.escuelajs.co/api/v1/auth/login",
     async (req, res, ctx) => {
-      const request = await req.json();
+      // const request = await req.json();
       console.log(res.networkError, req.headers);
     }
   )

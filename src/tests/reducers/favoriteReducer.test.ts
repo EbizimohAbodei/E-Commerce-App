@@ -4,7 +4,7 @@ import {
   removeItem,
   saveItem,
 } from "../../redux/reducers/favoriteReducers";
-import { product1, product2, product3, product4 } from "../data/products";
+import { product1, product2, product3 } from "../data/products";
 
 beforeEach(() => {
   store.dispatch(emptyFavorites());

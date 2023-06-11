@@ -5,8 +5,7 @@ import usersReducer, {
   updateUser,
   userAuth,
 } from "../../redux/reducers/userReducer";
-import { newUser, user1, user2, user3 } from "../data/users";
-
+import { newUser } from "../data/users";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import store from "../shared/store";
@@ -53,15 +52,7 @@ describe("Testing userReducer", () => {
   test("it should add users", async () => {
     // Mock the API response
     mock.onPost("https://api.escuelajs.co/api/v1/users").reply(201, newUser);
-
     await store.dispatch(createUser(newUser as any));
-    // await store.dispatch(createUser(user1 as any));
-    // await store.dispatch(createUser(user2 as any));
-    // await store.dispatch(createUser(user3 as any));
-
-    // console.log(store.getState().userReducers.users);
-
-    // Expectations for the test
     expect(store.getState().userReducers.users.length).toBe(1);
   });
 

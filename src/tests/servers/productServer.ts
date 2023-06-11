@@ -1,14 +1,7 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {
-  product1,
-  product2,
-  product3,
-  product4,
-  products,
-  updateProduct,
-} from "../data/products";
-// import { NewProduct } from '../../types/Product'
+import { product1, products, updateProduct } from "../data/products";
+
 import { Product, NewProduct, Filter } from "../../types/Products";
 import categories from "../data/categories";
 const filter: Filter = {
@@ -18,6 +11,7 @@ const filter: Filter = {
   title: "",
 };
 const updateId = 770;
+
 const productServer = setupServer(
   // Describe the requests to mock.
   rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
@@ -94,7 +88,7 @@ const productServer = setupServer(
   rest.put(
     `https://api.escuelajs.co/api/v1/products/${updateId}`,
     async (req, res, ctx) => {
-      const response = await req.json();
+      // const response = await req.json();
 
       const foundProduct = products.find((p) => p.id === updateId);
       if (foundProduct) {
@@ -111,7 +105,7 @@ const productServer = setupServer(
   rest.delete(
     `https://api.escuelajs.co/api/v1/products/${product1.id}`,
     async (req, res, ctx) => {
-      const response = await req.json();
+      // const response = await req.json();
 
       console.log("server ");
 
