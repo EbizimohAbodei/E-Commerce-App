@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, Reducer } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 import { Product, Filter } from "../../types/Products";
 
@@ -21,6 +21,7 @@ export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
     }
   }
 });
+
 export const fetchProductsByTitle = createAsyncThunk(
   "fetchProductByTitle",
   async (title: string) => {
@@ -64,6 +65,7 @@ export const fetchSingleProduct = createAsyncThunk(
     }
   }
 );
+
 export const fetchProductByCategory = createAsyncThunk(
   "getProductByCategory",
   async (id: string) => {
@@ -75,7 +77,6 @@ export const fetchProductByCategory = createAsyncThunk(
       return result.data;
     } catch (e) {
       console.log(e);
-
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
@@ -94,9 +95,10 @@ export const fetchProductByJointFilter = createAsyncThunk(
       const result = await axios.get<Product[]>(
         `https://api.escuelajs.co/api/v1/products/?categoryId=${data.categoryId}&price_min=${data.price_min}&price_max=${data.price_max}&title=${data.title}`
       );
-
       return result.data;
     } catch (e) {
+      console.log(e);
+
       const error = e as AxiosError | any;
       if (error.request) {
         toast.error(error.response?.data?.message);
@@ -193,21 +195,15 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     sortProductsByCategory: (state) => {
-      const sorted = [...state.products].sort((a, b) => {
-        if (a.category.id < b.category.id) return -1;
-        if (a.category.id > b.category.id) return 1;
-        return 0;
-      });
+      const sorted = [...state.products].sort(
+        (a, b) => a.category.id - b.category.id
+      );
 
       state.products = sorted;
     },
 
     sortProductsByPrice: (state) => {
-      const sorted = [...state.products].sort((a, b) => {
-        if (a.price < b.price) return -1;
-        if (a.price > b.price) return 1;
-        return 0;
-      });
+      const sorted = [...state.products].sort((a, b) => a.price - b.price);
 
       state.products = sorted;
     },
@@ -225,12 +221,12 @@ export const productsSlice = createSlice({
     emptyProducts: (state) => {
       state.products = [];
     },
-  }, // list of methods to modify the state
+  },
   extraReducers: (build) => {
     build
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         if (action.payload) {
-          state.products = action.payload;
+          state.products = action.payload.sort((a, b) => a.price - b.price);
           return;
         }
       })
@@ -239,6 +235,7 @@ export const productsSlice = createSlice({
           state.product = action.payload;
         }
       })
+
       .addCase(createNewProduct.fulfilled, (state, action) => {
         if (action.payload) {
           toast.success("product created successfully");
@@ -283,7 +280,6 @@ export const productsSlice = createSlice({
 
 //productReducer: current state
 const productsReducer = productsSlice.reducer as Reducer<Products>;
-
 export const {
   sortProductsByCategory,
   sortProductsByPrice,

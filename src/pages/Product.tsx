@@ -22,7 +22,6 @@ import {
   InputBase,
   AppBar,
   Toolbar,
-  Skeleton,
   Grid,
   Accordion,
   AccordionSummary,
@@ -56,6 +55,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
+
   "&:placeholder": {
     color: "white",
   },
@@ -105,6 +105,7 @@ const Product = () => {
   const [visibleItemCount, setVisibleItemCount] = useState(20);
   const dispatch = useAppDispatch();
   const [filter, setFilter] = useState("all");
+
   const handleChangeFilter = (event: any) => {
     setFilter(event.target.value as string);
   };
@@ -115,7 +116,6 @@ const Product = () => {
     },
     []
   );
-
   const debouncedMinValue = useDebounce(minPriceSearch, 600);
   const debouncedMaxValue = useDebounce(maxPriceSearch, 600);
   const debouncedtTitleValue = useDebounce(searchTitle, 500);
@@ -179,7 +179,6 @@ const Product = () => {
             position="static"
             sx={{
               backgroundColor: "var(--primary-color)",
-
               padding: ".5em 0",
             }}
           >
@@ -232,8 +231,9 @@ const Product = () => {
           </AppBar>
         </Box>
       </div>
-      <Grid container spacing={2}>
-        <Grid item xs={5} md={2}>
+
+      <Grid container spacing={2} justifyContent={"center"}>
+        <Grid item xs={0} md={3}>
           <Paper>
             <Typography variant="h5" sx={{ padding: "1em" }}>
               Filter
@@ -298,7 +298,7 @@ const Product = () => {
             </Accordion>
           </Paper>
         </Grid>
-        <Grid item xs={7} md={10}>
+        <Grid item xs={11} md={9}>
           {products.length > 1 ? (
             <>
               <Box
@@ -407,23 +407,15 @@ const Product = () => {
           ) : (
             <>
               <Grid container spacing={2}>
-                {Array.from(new Array(8)).map((index) => {
-                  return (
-                    <Grid item xs={3} key={index}>
-                      <Box sx={{ width: "100%", marginRight: 0.5, my: 5 }}>
-                        <Skeleton
-                          variant="rectangular"
-                          width={"100%"}
-                          height={118}
-                        />
-                        <Box sx={{ pt: 0.5 }}>
-                          <Skeleton />
-                          <Skeleton width="60%" />
-                        </Box>
-                      </Box>
-                    </Grid>
-                  );
-                })}
+                <Box sx={{ width: "100%", marginRight: 0.5, my: 5 }}>
+                  <Typography
+                    component={"h2"}
+                    variant="h2"
+                    textAlign={"center"}
+                  >
+                    No item found
+                  </Typography>
+                </Box>
               </Grid>
             </>
           )}
